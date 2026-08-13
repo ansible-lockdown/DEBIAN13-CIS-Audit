@@ -16,12 +16,17 @@ command:
       - 2.1.22
       NIST800-53R5:
       - CM-7
-  mta_postfix_inet_interfaces:
-    title: 2.1.22 | Ensure mail transfer agents are configured for local-only mode | postfix
-    exec: "if [ -f /etc/postfix/main.cf ]; then grep -E '^\\s*inet_interfaces' /etc/postfix/main.cf || echo 'inet_interfaces not set'; else echo 'postfix not installed'; fi"
+  mta_local_only:
+    title: 2.1.22 | Ensure mail transfer agents are configured for local-only mode | inet_interfaces
+    exec: |
+      if [ ! -f /etc/postfix/main.cf ]; then echo OK
+      elif grep -Eqi '^[[:space:]]*inet_interfaces[[:space:]]*=[[:space:]]*(all|ipv4)' /etc/postfix/main.cf; then echo BAD
+      elif grep -Eq '^[[:space:]]*inet_interfaces[[:space:]]*=[[:space:]]*loopback-only' /etc/postfix/main.cf; then echo OK
+      else echo BAD
+      fi
     exit-status: 0
     stdout:
-    - '/^(postfix not installed|\s*inet_interfaces\s*=\s*loopback-only\s*)$/'
+    - '/^OK$/'
     meta:
       server: 1
       workstation: 1

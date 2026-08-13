@@ -4,6 +4,12 @@
 
 Upgrade from CIS Debian Linux 13 Benchmark v1.0.0 to v1.1.0. 350/350 controls covered.
 
+- Fix 2.1.22 reporting non-compliant on any host with no mail transfer agent installed. The check
+  asserted `/etc/postfix/main.cf` `exists: true`, so a host with no MTA - which satisfies the
+  control - failed it. Replaced the file resource with a command that passes when main.cf is
+  absent and still fails on `inet_interfaces = all` or `ipv4`, on an unset inet_interfaces, and
+  on case or spacing variants. Verified against a real host in all three states: absent,
+  misconfigured and loopback-only
 - Retire 14 goss files for the controls v1.1.0 drops or merges: 1.5.10, 1.7.1, 1.7.3 to 1.7.9,
   6.1.1.1.4, 6.1.1.2.1 to 6.1.1.2.3 and 6.2.3.34
 - Renumber 48 goss files, matched to the new numbering by control title rather than by position
