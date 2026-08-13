@@ -2,44 +2,26 @@
 
 ## Based on CIS v1.1.0 - Branch benchmark_1.1.0
 
-Upgrade from CIS Debian Linux 13 Benchmark v1.0.0 to v1.1.0. 350/350 controls covered.
-
-- Fix 2.1.22 reporting non-compliant on any host with no mail transfer agent installed. The check
-  asserted `/etc/postfix/main.cf` `exists: true`, so a host with no MTA - which satisfies the
-  control - failed it. Replaced the file resource with a command that passes when main.cf is
-  absent and still fails on `inet_interfaces = all` or `ipv4`, on an unset inet_interfaces, and
-  on case or spacing variants. Verified against a real host in all three states: absent,
-  misconfigured and loopback-only
-- Retire 14 goss files for the controls v1.1.0 drops or merges: 1.5.10, 1.7.1, 1.7.3 to 1.7.9,
-  6.1.1.1.4, 6.1.1.2.1 to 6.1.1.2.3 and 6.2.3.34
-- Renumber 48 goss files, matched to the new numbering by control title rather than by position
-- Remove the section_6/cis_6.1.1.2.x directory, v1.1.0 has no 6.1.1.2 subsection. Its surviving
-  check moves to cis_6.1.1.1.x as 6.1.1.1.2, and goss.yml no longer includes the directory
-- 6.1.2.3 becomes 6.1.1.1.3 but stays in the cis_6.1.2.x directory. goss.yml includes that
-  directory only when deb13cis_syslog is rsyslog, which is the only case where "journald is
-  configured to send logs to rsyslog" applies, so the audit gate mirrors the remediation gate
-- Add 21 goss files for the new controls: 1.2.1.10 to 1.2.1.15, 1.6.4, 1.6.5, 1.6.9 to 1.6.12,
-  1.7.2 to 1.7.5, 3.2.7, 3.3.1.19, 5.1.2, 5.3.1.4 and 7.2.11
-- Add deb13cis_sshd_banner_file, deb13cis_disable_dynamic_motd, deb13cis_screensaver_idle_delay
-  and deb13cis_screensaver_lock_delay to vars/CIS.yml, all passed through from the remediation role
-- Move 1.2.1.3, 3.3.1.1, 5.1.9 and 5.1.10 to the Level 1 gate, following the v1.1.0 profile change
-- The 1.6.11 and 1.6.12 checks assert that update-notifier-motd is neither enabled nor active
-  rather than using a service resource, so they pass cleanly on Debian 13 where the unit is absent
-  and still fail if it is installed and enabled
-- 7.2.11 asserts on a counted result rather than on empty output, so a check that stops producing
-  output fails instead of silently passing
-- Fix 1.7.1, which defined the goss key `gdm_profile_banner` twice under the same `command:`
-  block. Goss refused to parse the file and **aborted the entire audit** with
-  "mapping key already defined", so any host with deb13cis_desktop_required set to true got no
-  audit at all. Split into gdm_banner_message_enable and gdm_banner_message_text. Found by a real
-  host run, not by yamllint or the gap report - PyYAML accepts duplicate keys and keeps the last
-- Fix 1.7.6 and 1.7.7, which both registered a `file:` resource under the key
-  /etc/gdm3/custom.conf. Goss merges every gossfile fragment into one namespace, so 1.7.7 silently
-  replaced 1.7.6 and the XDMCP check never ran - it was absent from the results rather than
-  failing. Keys are now gdm_xdmcp_disabled and gdm_xwayland_configured
-- 3.2.7 is a Manual control. It now reports the loaded network protocol modules for review using
-  the "Manual Check Required" pattern, rather than asserting no kernel/net module is loaded, which
-  failed on any host with normal networking (14 modules loaded on a stock Debian 13)
+- benchmark_1.1.0 branch
+  - Aligned to CIS Debian Linux 13 Benchmark v1.1.0, 350/350 controls
+  - Retired 14 goss files for controls dropped or merged
+  - Renumbered 48 goss files, mapped by control title
+  - Removed section_6/cis_6.1.1.2.x, no 6.1.1.2 subsection in v1.1.0
+  - 6.1.2.3 becomes 6.1.1.1.3, stays in the rsyslog gated directory
+  - Added 21 goss files for the new controls
+  - Added sshd_banner_file, disable_dynamic_motd and screensaver vars
+  - 1.2.1.3, 3.3.1.1, 5.1.9 and 5.1.10 moved to the Level 1 gate
+  - Goss binary moved to krameff v0.6.0, run_audit.sh minimum raised to 0.6.0
+  - depends-on added to the rsyslog group, dependents skip when rsyslog is absent
+  - 1.7.1: duplicate goss key aborted the whole audit, keys split
+  - 1.7.6 and 1.7.7: shared resource key meant the XDMCP check never ran
+  - 6.1.2.10: missing .Vars. prefix aborted the audit on rsyslog hosts
+  - 6.1.2.8: stray exec under a package resource aborted the audit
+  - 2.1.22: no longer fails when no mail transfer agent is installed
+  - 7.2.3: rewritten to avoid writing temp files during the audit
+  - 3.2.7: manual check pattern, was asserting no net module is loaded
+  - 1.6.11 and 1.6.12: command checks, pass cleanly when the unit is absent
+  - 7.2.11: asserts on a counted result rather than empty output
 
 ## Based on CIS v1.0.0 - Branch align_1.0.0
 
