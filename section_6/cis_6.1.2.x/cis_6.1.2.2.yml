@@ -4,6 +4,8 @@
   {{ if .Vars.deb13cis_rule_6_1_2_2 }}
 service:
   rsyslog_service:
+    depends-on:
+    - package:rsyslog
     title: 6.1.2.2 | Ensure rsyslog service is enabled and active
     name: rsyslog.service
     running: true

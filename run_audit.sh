@@ -32,8 +32,8 @@ BENCHMARK_VER=1.0.0
 BENCHMARK_OS=DEBIAN13
 
 # Goss host Variables
-AUDIT_BIN="${AUDIT_BIN:-/usr/local/bin/syver}"  # location of the syver (or goss) executable
-AUDIT_BIN_MIN_VER="0.13.0"
+AUDIT_BIN="${AUDIT_BIN:-/usr/local/bin/goss}"  # location of the goss executable
+AUDIT_BIN_MIN_VER="0.6.0"
 AUDIT_FILE="${AUDIT_FILE:-goss.yml}"  # the default goss file used by the audit provided by the audit configuration
 AUDIT_CONTENT_LOCATION="${AUDIT_CONTENT_LOCATION:-/opt}"  # Location of the audit configuration file as available to the OS
 

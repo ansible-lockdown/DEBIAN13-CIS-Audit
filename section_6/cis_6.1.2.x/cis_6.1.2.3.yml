@@ -4,6 +4,8 @@
   {{ if .Vars.deb13cis_rule_6_1_2_3 }}
 command:
   perms_rsyslog_d:
+    depends-on:
+    - package:rsyslog
     title: 6.1.2.3 | Ensure rsyslog log file creation mode is configured
     exec: 'grep -s ^\$FileCreateMode /etc/rsyslog.conf /etc/rsyslog.d/*.conf | cut -f2 -d:'
     exit-status: 0

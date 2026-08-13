@@ -4,6 +4,8 @@
   {{ if .Vars.deb13cis_rule_6_1_2_4 }}
 file:
   rsyslog_logging:
+    depends-on:
+    - package:rsyslog
     title: 6.1.2.4 | Ensure rsyslog logging is configured
     path: /etc/rsyslog.conf
     exists: true

@@ -5,6 +5,8 @@
     {{ if not .Vars.deb13cis_remote_log_host }}
 command:
   remote_syslog:
+    depends-on:
+    - package:rsyslog
     title: 6.1.2.5 | Ensure rsyslog is configured to send logs to a remote log host
     exec: 'grep -E "action.*omfwd.*target" /etc/rsyslog.conf /etc/rsyslog.d/*.conf'
     exit-status:

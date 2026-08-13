@@ -28,7 +28,7 @@ The listed variable for every control/benchmark can be turned on/off or section
 
 ## Requirements
 
-syver >= 0.13.0 - the continuation of goss, reading the same goss file format. Syver replaces goss as it is a signed fork that is regularly updated.
+goss >= 0.6.0
 root privileges
 
 ## Branches
@@ -72,7 +72,7 @@ README Links
 [Centre For Internet Security]: https://www.cisecurity.org
 [Read the Docs - Audit]: https://ansible-lockdown.readthedocs.io/en/latest/audit/getting-started-audit.html
 
-[Syver documentation]: https://github.com/krameff/syver/blob/main/docs/index.md
+[goss documentation]: (https://github.com/krameff/goss/blob/master/README.md)
 
 [goss vs Syver]: https://github.com/krameff/syver/blob/main/docs/goss-vs-syver.md
 
