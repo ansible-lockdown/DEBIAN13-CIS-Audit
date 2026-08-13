@@ -5,7 +5,6 @@
 package:
   rsyslog-gnutls:
     title: 6.1.2.8 | Ensure rsyslog-gnutls is installed
-    exec: echo "Manual | please check file rotaton matches site policy - logrotate"
     name: rsyslog-gnutls
     installed: true
     meta:
