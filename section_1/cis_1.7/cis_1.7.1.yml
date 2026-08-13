@@ -1,20 +1,43 @@
 ---
 
-{{ if not .Vars.deb13cis_desktop_required }}
-  {{ if .Vars.deb13cis_level_2 }}
+{{ if .Vars.deb13cis_desktop_required }}
+  {{ if .Vars.deb13cis_level_1 }}
     {{ if .Vars.deb13cis_rule_1_7_1 }}
-package:
-  gdm_removed:
-    title: 1.7.1 | Ensure GDM is removed
-    installed: false
-    name: gdm
+command:
+  gdm_banner_message_enable:
+    title: 1.7.1 | Ensure GDM login banner is configured
+    exec: gsettings get org.gnome.login-screen banner-message-enable
+    exit-status: 0
+    stdout:
+    - '/^true/'
     meta:
-      server: 2
-      workstation: NA
+      server: 1
+      workstation: 1
       CIS_ID:
       - 1.7.1
       NIST800-53R5:
-      - CM-11
+      - CM-1
+      - CM-2
+      - CM-6
+      - CM-7
+      - IA-5
+  gdm_banner_message_text:
+    title: 1.7.1 | Ensure GDM login banner is configured
+    exec: gsettings get org.gnome.login-screen banner-message-text
+    exit-status: 0
+    stdout:
+    - '{{ .Vars.deb13cis_warning_banner }}'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 1.7.1
+      NIST800-53R5:
+      - CM-1
+      - CM-2
+      - CM-6
+      - CM-7
+      - IA-5
     {{ end }}
   {{ end }}
 {{ end }}
