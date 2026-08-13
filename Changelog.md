@@ -1,54 +1,39 @@
 # Debian 13 CIS
 
-## October 2026 - QA fixes
+## Based on CIS v1.1.0 - Branch benchmark_1.1.0
 
-- 5.4.1.5 root checked only when deb13cis_inactivelock_include_root is true
-- 6.1.1.1.x journald tests run whatever the syslog choice, 6.1.1.1.4 journald only
-- goss files start with --- on line 1
-- 7.1.11 to 7.1.13 read the mount point from $6
-- 7.1.13 SUID/SGID review checks package ownership and integrity
-- 1.3.1.3 rewritten for dash, complain and unconfined counts
-- 5.3.3.4.1 and 5.3.3.4.2 list the common-* files explicitly
-- 7.2.9 uid range read with awk
-- 2.1.2 package avahi-daemon, 2.1.16 package telnetd
-- 2.1.22 postfix check only when postfix is installed
-- 6.2.3.19 asserts the chown syscalls
-- 6.2.4.6 and 6.2.4.7 use find ! -user / ! -group root
-- 5.4.1.2 lists only passwords with min days below 1
-- 5.4.1.5 uses the benchmark inactive check
-- 1.2.1.6 and 1.2.1.9 use find with owner and mode
-- 5.4.2.1 to 5.4.2.3 use awk instead of character classes
-- 7.2.5 to 7.2.8 sort before uniq -d
-- standalone.yml globs aligned with goss.yml
-- config file assertions anchored so comments cannot satisfy them
-- 6.1.2.11 CA file variable read from .Vars, rsyslog audits no longer abort
-- 6.1.2.9 invalid exec attribute removed from the package test
-- 6.1.2.3 reads the effective journald ForwardToSyslog value
-- 6.1.2.6 gated on deb13cis_remote_log_server, 6.1.2.7 split client and server
-- 6.3.1 gated on deb13cis_config_aide
-- level gates corrected for 3.3.2.1, 3.3.2.2, 5.4.1.2 and 6.3.3
-- deb13cis_exclude_unowned_search_path spacing fixed
-- Company name updated to MindPoint Group - A Quantum Sky Company
-- run_audit.sh uses syver v0.13.0 by default
-- README describes syver
+Upgrade from CIS Debian Linux 13 Benchmark v1.0.0 to v1.1.0. 350/350 controls covered.
 
-## Based on CIS v1.0.0 - Branch sept26_updates
-
-- 1.7.2 defined the goss key gdm_profile_banner twice in one command: map, so the
-  banner-message-enable assertion was lost and goss aborts on a duplicate key
-- 1.7.10 and 1.7.11 both keyed on /etc/gdm3/custom.conf; level_1 and level_2 both default
-  true, so goss merged them and 1.7.10 was silently dropped. Both now use named keys
-- 1.6.1, 1.6.2 and 1.6.3 asserted '!/(?i)linux' with no closing /, which goss reads as a
-  literal string, so the OS-disclosure check never fired. Host-proven: all three banner
-  files contained "Debian GNU/Linux" while the audit reported clean
-- 1.1.1.6 checked the non-existent overlayfs module; the FATAL "module not found" message
-  itself contained the string being grepped, so it always passed. Now overlay
-
-- 6.2.3.10 was a placeholder that echoed "Manual" then asserted the output must not contain
-  "Manual", so it could only ever fail and checked nothing. Replaced with conf and running
-  checks on the -k privileged rules, in the POSIX echo-on-failure style used by 6.2.3.9
-
-- updated from Audit to AUDIT
+- Retire 14 goss files for the controls v1.1.0 drops or merges: 1.5.10, 1.7.1, 1.7.3 to 1.7.9,
+  6.1.1.1.4, 6.1.1.2.1 to 6.1.1.2.3 and 6.2.3.34
+- Renumber 48 goss files, matched to the new numbering by control title rather than by position
+- Remove the section_6/cis_6.1.1.2.x directory, v1.1.0 has no 6.1.1.2 subsection. Its surviving
+  check moves to cis_6.1.1.1.x as 6.1.1.1.2, and goss.yml no longer includes the directory
+- 6.1.2.3 becomes 6.1.1.1.3 but stays in the cis_6.1.2.x directory. goss.yml includes that
+  directory only when deb13cis_syslog is rsyslog, which is the only case where "journald is
+  configured to send logs to rsyslog" applies, so the audit gate mirrors the remediation gate
+- Add 21 goss files for the new controls: 1.2.1.10 to 1.2.1.15, 1.6.4, 1.6.5, 1.6.9 to 1.6.12,
+  1.7.2 to 1.7.5, 3.2.7, 3.3.1.19, 5.1.2, 5.3.1.4 and 7.2.11
+- Add deb13cis_sshd_banner_file, deb13cis_disable_dynamic_motd, deb13cis_screensaver_idle_delay
+  and deb13cis_screensaver_lock_delay to vars/CIS.yml, all passed through from the remediation role
+- Move 1.2.1.3, 3.3.1.1, 5.1.9 and 5.1.10 to the Level 1 gate, following the v1.1.0 profile change
+- The 1.6.11 and 1.6.12 checks assert that update-notifier-motd is neither enabled nor active
+  rather than using a service resource, so they pass cleanly on Debian 13 where the unit is absent
+  and still fail if it is installed and enabled
+- 7.2.11 asserts on a counted result rather than on empty output, so a check that stops producing
+  output fails instead of silently passing
+- Fix 1.7.1, which defined the goss key `gdm_profile_banner` twice under the same `command:`
+  block. Goss refused to parse the file and **aborted the entire audit** with
+  "mapping key already defined", so any host with deb13cis_desktop_required set to true got no
+  audit at all. Split into gdm_banner_message_enable and gdm_banner_message_text. Found by a real
+  host run, not by yamllint or the gap report - PyYAML accepts duplicate keys and keeps the last
+- Fix 1.7.6 and 1.7.7, which both registered a `file:` resource under the key
+  /etc/gdm3/custom.conf. Goss merges every gossfile fragment into one namespace, so 1.7.7 silently
+  replaced 1.7.6 and the XDMCP check never ran - it was absent from the results rather than
+  failing. Keys are now gdm_xdmcp_disabled and gdm_xwayland_configured
+- 3.2.7 is a Manual control. It now reports the loaded network protocol modules for review using
+  the "Manual Check Required" pattern, rather than asserting no kernel/net module is loaded, which
+  failed on any host with normal networking (14 modules loaded on a stock Debian 13)
 
 ## Based on CIS v1.0.0 - Branch align_1.0.0
 
