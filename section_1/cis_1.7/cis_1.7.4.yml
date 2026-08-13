@@ -3,33 +3,44 @@
 {{ if .Vars.deb13cis_desktop_required }}
   {{ if .Vars.deb13cis_level_1 }}
     {{ if .Vars.deb13cis_rule_1_7_4 }}
-command:
-  screensaver_lock_delay:
-    title: 1.7.4 | Ensure GDM screen locks when the user is idle | lock delay
-    exec: gsettings get org.gnome.desktop.screensaver lock-delay
-    exit-status: 0
+file:
+  gdm_media_automount:
+    title: 1.7.4 | Ensure GDM automount is configured
+    path: /etc/dconf/db/{{ .Vars.deb13cis_dconf_db_name }}.d/00-media-automount
+    exists: true
     contents:
-    - '/^uint32 [1-5]$/'
+    - '/^\[org\/gnome\/desktop\/media-handling\]$/'
+    - '/^automount=false$/'
+    - '/^automount-open=false$/'
     meta:
       server: 1
-      workstation: 1
+      workstation: 2
       CIS_ID:
       - 1.7.4
       NIST800-53R5:
-      - AC-11
-  screensaver_idle_delay:
-    title: 1.7.4 | Ensure GDM screen locks when the user is idle | idle_delay
-    exec: gsettings get org.gnome.desktop.screensaver idle-delay
-    exit-status: 0
+      - CM-1
+      - CM-2
+      - CM-6
+      - CM-7
+      - IA-5
+  gdm_media_automount_lock:
+    title: 1.7.4 | Ensure GDM automount is configured | lock override
+    path: /etc/dconf/db/{{ .Vars.deb13cis_dconf_db_name }}.d/locks/00-automount_lock
+    exists: true
     contents:
-    - '/^uint32 ([2-9][0-9]|[1-8][0-9][0-9]|900)]$/'
+    - '/^\/org\/gnome\/desktop\/media-handling\/automount$/'
+    - '/^\/org\/gnome\/desktop\/media-handling\/automount-open$/'
     meta:
       server: 1
-      workstation: 1
+      workstation: 2
       CIS_ID:
       - 1.7.4
       NIST800-53R5:
-      - AC-11
+      - CM-1
+      - CM-2
+      - CM-6
+      - CM-7
+      - IA-5
     {{ end }}
   {{ end }}
 {{ end }}

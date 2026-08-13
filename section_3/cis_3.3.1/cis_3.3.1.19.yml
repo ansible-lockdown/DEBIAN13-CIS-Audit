@@ -1,0 +1,37 @@
+---
+
+{{ if .Vars.deb13cis_level_1 }}
+  {{ if .Vars.deb13cis_rule_3_3_1_19 }}
+kernel-param:
+  net.ipv4.conf.all.route_localnet:
+    title: 3.3.1.19 | Ensure net.ipv4.conf.all.route_localnet is configured
+    value: '0'
+    name: net.ipv4.conf.all.route_localnet
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 3.3.1.19
+      NIST800-53R5:
+      - CM-6
+command:
+  ipv4_route_localnet:
+    title: 3.3.1.19 | Ensure net.ipv4.conf.all.route_localnet is configured | conf
+    exec: grep -rs 'net\.ipv4\.conf\.all\.route_localnet' /etc/sysctl.conf /etc/sysctl.d/ /run/sysctl.d/ /usr/lib/sysctl.d/ /lib/sysctl.d/
+    exit-status:
+      or:
+      - 0
+      - 1
+      - 2
+    stdout:
+    - '/net\.ipv4\.conf\.all\.route_localnet\s*=\s*0/'
+    - '!/net\.ipv4\.conf\.all\.route_localnet\s*=\s*1/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 3.3.1.19
+      NIST800-53R5:
+      - CM-6
+  {{ end }}
+{{ end }}

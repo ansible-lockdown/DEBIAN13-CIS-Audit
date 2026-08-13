@@ -1,0 +1,21 @@
+---
+
+{{ if .Vars.deb13cis_level_1 }}
+  {{ if .Vars.deb13cis_rule_1_6_9 }}
+command:
+  pam_motd_perms:
+    title: 1.6.9 | Ensure access to pam_motd file is configured
+    exec: grep -hos -- 'motd=[^ ]*' /etc/pam.d/* | sed 's/^motd=//' | sort -u | while read -r f; do [ -e "$f" ] && find "$f" -maxdepth 0 \( ! -user root -o ! -group root -o -perm /u=x,go=wx \); done | wc -l
+    exit-status: 0
+    stdout:
+    - '/^0$/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 1.6.9
+      NIST800-53R5:
+      - AC-3
+      - MP-2
+  {{ end }}
+{{ end }}

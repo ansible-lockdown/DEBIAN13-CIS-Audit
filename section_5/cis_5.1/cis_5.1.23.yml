@@ -3,13 +3,13 @@
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_5_1_23 }}
 file:
-  ssh_usepam:
-    title: 5.1.23 | Ensure sshd UsePAM is enabled
+  ssh_userenv:
+    title: 5.1.23 | Ensure sshd PermitUserEnvironment is disabled
     path: /etc/ssh/sshd_config
     exists: true
     contents:
-    - '/(?i)^\s*UsePAM yes/'
-    - '!/(?i)^UsePAM no/'
+    - '/(?i)^PermitUserEnvironment no/'
+    - '!/(?i)^PermitUserEnvironment yes/'
     meta:
       server: 1
       workstation: 1

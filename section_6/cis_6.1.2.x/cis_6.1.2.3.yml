@@ -3,12 +3,13 @@
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_1_2_3 }}
 command:
-  forward_journald_conf:
-    title: 6.1.2.3 | Ensure journald is configured to send logs to rsyslog
-    exec: systemd-analyze cat-config systemd/journald.conf | grep -Ei '^\s*ForwardToSyslog\s*=' | tail -1
+  perms_rsyslog_d:
+    title: 6.1.2.3 | Ensure rsyslog log file creation mode is configured
+    exec: 'grep -s ^\$FileCreateMode /etc/rsyslog.conf /etc/rsyslog.d/*.conf | cut -f2 -d:'
     exit-status: 0
     stdout:
-    - '/(?i)^\s*ForwardToSyslog\s*=\s*yes\s*$/'
+    - '/\$FileCreateMode 06[0-4]0/'
+    - '!/\$FileCreateMode 06[6-7][0-7]/'
     meta:
       server: 1
       workstation: 1
@@ -16,9 +17,7 @@ command:
       - 6.1.2.3
       NIST800-53R5:
       - AC-3
-      - AU-2
-      - AU-4
-      - AU-12
+      - AC-6
       - MP-2
   {{ end }}
 {{ end }}

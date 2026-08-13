@@ -2,22 +2,33 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_1_2_4 }}
-command:
-  perms_rsyslog_d:
-    title: 6.1.2.4 | Ensure rsyslog log file creation mode is configured
-    exec: 'grep -s ^\$FileCreateMode /etc/rsyslog.conf /etc/rsyslog.d/*.conf | cut -f2 -d:'
-    exit-status: 0
-    stdout:
-    - '/\$FileCreateMode 06[0-4]0/'
-    - '!/\$FileCreateMode 06[6-7][0-7]/'
+file:
+  rsyslog_logging:
+    title: 6.1.2.4 | Ensure rsyslog logging is configured
+    path: /etc/rsyslog.conf
+    exists: true
+    contents:
+    - '/^\*.emerg\s+:omusrmsg:\*/'
+    - '/auth,authpriv.\*\s+/var/log/secure/'
+    - '/^mail.\*\s+-/var/log/mail/'
+    - '/^mail.info\s+-/var/log/mail.info/'
+    - '/^mail.err\s+/var/log/mail.err/'
+    - '/^cron.\*\s+/var/log/cron/'
+    - '/^*.=warning;\*.=err\s+-/var/log/warn/'
+    - '/^*.crit\s+/var/log/warn/'
+    - '/^*.*;mail.none;news.none\s+-/var/log/messages/'
+    - '/^local0,local1.\*\s+-/var/log/localmessages/'
+    - '/^local2,local3.\*\s+-/var/log/localmessages/'
+    - '/^local4,local5.\*\s+-/var/log/localmessages/'
+    - '/^local6,local7.\*\s+-/var/log/localmessages/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 6.1.2.4
       NIST800-53R5:
-      - AC-3
-      - AC-6
-      - MP-2
+      - AU-2
+      - AU-7
+      - AU-12
   {{ end }}
 {{ end }}

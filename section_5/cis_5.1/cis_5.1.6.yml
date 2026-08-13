@@ -2,14 +2,34 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_5_1_6 }}
+file:
+  ssh_banner:
+    title: 5.1.6 | Ensure sshd Banner is configured | sshd_default
+    path: /etc/ssh/sshd_config
+    exists: true
+    contents:
+    - 'Banner /etc/issue.net'
+    - '!/^Banner none/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 5.1.6
+      NIST800-53R5:
+      - CM-1
+      - CM-2
+      - CM-6
+      - CM-7
+      - IA-5
 command:
-  sshd_ciphers:
-    title: 5.1.6 | Ensure sshd Ciphers are configured
-    exec: sshd -T | grep -Pi -- '^ciphers\h+\"?([^#\n\r]+,)?((3des|blowfish|cast128|aes(128|192|256))-cbc|arcfour(128|256)?|rijndael-cbc@lysator\.liu\.se)\b'
+  ssh_configd_banner:
+    title: 5.1.6 | Ensure sshd Banner is configured | conf.d banner settings
+    exec: grep -Eis '^\s*Banner\s+"?none\b'/etc/ssh/sshd_config.d/*.conf
     exit-status:
       or:
       - 0
       - 1
+      - 2
     stdout:
     - '!/.*/'
     meta:
@@ -18,6 +38,10 @@ command:
       CIS_ID:
       - 5.1.6
       NIST800-53R5:
-      - SC-8
+      - CM-1
+      - CM-2
+      - CM-6
+      - CM-7
+      - IA-5
   {{ end }}
 {{ end }}

@@ -2,12 +2,20 @@
 
 {{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_1_2_9 }}
-package:
-  rsyslog-gnutls:
-    title: 6.1.2.9 | Ensure rsyslog-gnutls is installed
-    installed: true
+command:
+  forwarding_gtls:
+    title: 6.1.2.9 | Ensure rsyslog forwarding uses gtls
+    exec: grep -Psi -- '^\h*StreamDriver=\"gtls\"' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
+    exit-status:
+      or:
+      - 0
+      - 1
+    stdout:
+    - 'StreamDriver="gtls"'
+    - 'StreamDriverAuthMode="anon"'
+    - 'StreamDriverMode="1"'
     meta:
-      server: 2
+      server: 1
       workstation: 2
       CIS_ID:
       - 6.1.2.9

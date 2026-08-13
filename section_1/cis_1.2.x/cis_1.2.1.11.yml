@@ -1,0 +1,20 @@
+---
+
+{{ if .Vars.deb13cis_level_1 }}
+  {{ if .Vars.deb13cis_rule_1_2_1_11 }}
+command:
+  apt_sources_list_d_https:
+    title: 1.2.1.11 | Ensure repositories are set to https in /etc/apt/sources.list.d directory
+    exec: grep -Ers -- '^[[:space:]]*(deb(-src)?|URIs:)[[:space:]]+http://' /etc/apt/sources.list.d/ | wc -l
+    exit-status: 0
+    stdout:
+    - '/^0$/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 1.2.1.11
+      NIST800-53R5:
+      - SC-8
+  {{ end }}
+{{ end }}

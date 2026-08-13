@@ -1,0 +1,21 @@
+---
+
+{{ if .Vars.deb13cis_level_2 }}
+  {{ if .Vars.deb13cis_rule_3_2_7 }}
+command:
+  unneeded_network_protocol_modules:
+    title: 3.2.7 | Ensure unneeded network protocol kernel modules are not available | Manual Check Required
+    exec: mods=$(find /lib/modules/"$(uname -r)"/kernel/net -type f -name '*.ko*' 2>/dev/null | sed -e 's|.*/||' -e 's/\.ko.*$//' | sort -u); echo "Manual - review these loaded network protocol modules against the site required-protocol list:" $(lsmod | awk 'NR>1 {print $1}' | sort -u | grep -Fx "$mods" | tr '\n' ' ')
+    exit-status: 0
+    timeout: {{ .Vars.timeout_ms }}
+    stdout:
+    - '!/^Manual/'
+    meta:
+      server: 2
+      workstation: 2
+      CIS_ID:
+      - 3.2.7
+      NIST800-53R5:
+      - NA
+  {{ end }}
+{{ end }}

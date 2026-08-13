@@ -2,46 +2,37 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_5_1_5 }}
-file:
-  ssh_banner:
-    title: 5.1.5 | Ensure sshd Banner is configured | sshd_default
-    path: /etc/ssh/sshd_config
-    exists: true
-    contents:
-    - '/^\s*Banner \/etc\/issue\.net/'
-    - '!/^Banner none/'
-    meta:
-      server: 1
-      workstation: 1
-      CIS_ID:
-      - 5.1.5
-      NIST800-53R5:
-      - CM-1
-      - CM-2
-      - CM-6
-      - CM-7
-      - IA-5
+{{ if or .Vars.deb13cis_sshd_allow_users .Vars.deb13cis_sshd_allow_groups .Vars.deb13cis_sshd_deny_users .Vars.deb13cis_sshd_deny_groups }}
 command:
-  ssh_configd_banner:
-    title: 5.1.5 | Ensure sshd Banner is configured | conf.d banner settings
-    exec: grep -Eis '^\s*Banner\s+"?none\b'/etc/ssh/sshd_config.d/*.conf
+  sshd_access_limited:
+    title: 5.1.5 | Ensure sshd access is configured | config
+    exec: grep -RhiE '^[[:space:]]*(Allow|Deny)(Users|Groups)' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/
     exit-status:
       or:
       - 0
       - 1
       - 2
     stdout:
-    - '!/.*/'
+{{ if .Vars.deb13cis_sshd_allow_users }}
+    - '/(?i)^[[:space:]]*AllowUsers[[:space:]]+{{ .Vars.deb13cis_sshd_allow_users }}/'
+{{ end }}
+{{ if .Vars.deb13cis_sshd_allow_groups }}
+    - '/(?i)^[[:space:]]*AllowGroups[[:space:]]+{{ .Vars.deb13cis_sshd_allow_groups }}/'
+{{ end }}
+{{ if .Vars.deb13cis_sshd_deny_users }}
+    - '/(?i)^[[:space:]]*DenyUsers[[:space:]]+{{ .Vars.deb13cis_sshd_deny_users }}/'
+{{ end }}
+{{ if .Vars.deb13cis_sshd_deny_groups }}
+    - '/(?i)^[[:space:]]*DenyGroups[[:space:]]+{{ .Vars.deb13cis_sshd_deny_groups }}/'
+{{ end }}
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 5.1.5
       NIST800-53R5:
-      - CM-1
-      - CM-2
-      - CM-6
-      - CM-7
-      - IA-5
+      - AC-3
+      - MP-2
+{{ end }}
   {{ end }}
 {{ end }}

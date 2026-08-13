@@ -1,0 +1,37 @@
+---
+
+{{ if .Vars.deb13cis_level_1 }}
+  {{ if .Vars.run_heavy_tests }}
+    {{ if .Vars.deb13cis_rule_7_2_11 }}
+command:
+  dot_dir_perms:
+    title: 7.2.11 | Ensure local interactive user dot directories access is configured | dot directory permissions
+    exec: find /home/ -type d -name '.*' ! -name .ssh -perm /g=w,o=rwx 2>/dev/null | wc -l
+    exit-status: 0
+    timeout: {{ .Vars.timeout_ms }}
+    stdout:
+    - '/^0$/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 7.2.11
+      NIST800-53R5:
+      - AC-6
+  dot_ssh_dir_perms:
+    title: 7.2.11 | Ensure local interactive user dot directories access is configured | ssh directory permissions
+    exec: find /home/ -type d -name .ssh -perm /g=rwx,o=rwx 2>/dev/null | wc -l
+    exit-status: 0
+    timeout: {{ .Vars.timeout_ms }}
+    stdout:
+    - '/^0$/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 7.2.11
+      NIST800-53R5:
+      - AC-6
+    {{ end }}
+  {{ end }}
+{{ end }}

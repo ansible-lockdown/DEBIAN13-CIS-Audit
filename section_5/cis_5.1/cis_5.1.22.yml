@@ -3,23 +3,19 @@
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_5_1_22 }}
 file:
-  ssh_userenv:
-    title: 5.1.22 | Ensure sshd PermitUserEnvironment is disabled
+  ssh_permit_root:
+    title: 5.1.22 | Ensure sshd PermitRootLogin is disabled
     path: /etc/ssh/sshd_config
     exists: true
     contents:
-    - '/(?i)^PermitUserEnvironment no/'
-    - '!/(?i)^PermitUserEnvironment yes/'
+    - '/(?i)^PermitRootLogin no/'
+    - '!/(?i)^PermitRootLogin yes/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 5.1.22
       NIST800-53R5:
-      - CM-1
-      - CM-2
-      - CM-6
-      - CM-7
-      - IA-5
+      - AC-6
   {{ end }}
 {{ end }}

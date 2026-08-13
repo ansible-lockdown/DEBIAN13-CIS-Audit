@@ -4,20 +4,41 @@
   {{ if .Vars.deb13cis_level_1 }}
     {{ if .Vars.deb13cis_rule_1_7_5 }}
 file:
-  00-screensaver_lock:
-    title: 1.7.5 | Ensure GDM screen locks cannot be overridden
-    path: /etc/dconf/db/{ .Vars.deb13cis_dconf_db_name }.d/locks/00-screensaver_lock
+  gdm_media_autorun:
+    title: 1.7.5 | Ensure GDM autorun-never is configured
+    path: /etc/dconf/db/{{ .Vars.deb13cis_dconf_db_name }}.d/00-media-autorun
     exists: true
     contents:
-    - '^\/org\/gnome\/desktop\/session\/idle-delay/'
-    - '^/\/org\/gnome\/desktop\/screensaver\/lock-delay/'
+    - '/^\[org\/gnome\/desktop\/media-handling\]$/'
+    - '/^autorun-never=true$/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 1.7.5
       NIST800-53R5:
-      - CM-11
+      - CM-1
+      - CM-2
+      - CM-6
+      - CM-7
+      - IA-5
+  gdm_media_autorun_lock:
+    title: 1.7.5 | Ensure GDM autorun-never is configured | lock override
+    path: /etc/dconf/db/{{ .Vars.deb13cis_dconf_db_name }}.d/locks/00-autorun_lock
+    exists: true
+    contents:
+    - '/^\/org\/gnome\/desktop\/media-handling\/autorun-never$/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 1.7.5
+      NIST800-53R5:
+      - CM-1
+      - CM-2
+      - CM-6
+      - CM-7
+      - IA-5
     {{ end }}
   {{ end }}
 {{ end }}

@@ -3,12 +3,12 @@
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_1_5_12 }}
 file:
-  system_processsizemax_conf:
-    title: 1.5.12 | Ensure systemd-coredump ProcessSizeMax is configured
-    path: /etc/systemd/coredump.conf.d/60-coredump.conf
+  coredump_storage_conf:
+    title: 1.5.12 | Ensure systemd-coredump Storage is configured
+    path: /etc/systemd/coredump.conf
     exists: true
     contents:
-    - '/^ProcessSizeMax\s*=\s*0\s*$/'
+    - '/^Storage\s*=\s*none\s*$/'
     meta:
       server: 1
       workstation: 1

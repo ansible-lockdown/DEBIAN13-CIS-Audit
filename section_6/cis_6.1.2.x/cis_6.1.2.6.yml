@@ -1,25 +1,50 @@
+
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_1_2_6 }}
     {{ if .Vars.deb13cis_remote_log_server }}
 command:
-  remote_syslog:
-    title: 6.1.2.6 | Ensure rsyslog is configured to send logs to a remote log host
-    exec: grep -Eh '^[[:space:]]*[^#[:space:]].*(@|target=)' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
+  local_syslog_module:
+    title: 6.1.2.6 | Ensure rsyslog is not configured to receive logs from a remote client | module
+    exec: grep "imtcp" /etc/rsyslog.conf /etc/rsyslog.d/*.conf | grep -Ev ":#|port="
     exit-status:
       or:
       - 0
+      - 1
       - 2
     stdout:
-    - '/^\s*\S+\s+(@@?|.*target="?){{ .Vars.deb13cis_remote_log_host }}/'
+    - '!/.*/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 6.1.2.6
       NIST800-53R5:
-      - AU-6
+      - AU-2
+      - AU-7
+      - AU-12
+      - CM-6
+  local_syslog_input:
+    title: 6.1.2.6 | Ensure rsyslog is not configured to receive logs from a remote client | server/port
+    exec: grep -E "imtcp\" port|InputTCPServerRun" /etc/rsyslog.conf /etc/rsyslog.d/*.conf | grep -v ":#"
+    exit-status:
+      or:
+      - 0
+      - 1
+      - 2
+    stdout:
+    - '!/.*/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 6.1.2.6
+      NIST800-53R5:
+      - AU-2
+      - AU-7
+      - AU-12
+      - CM-6
     {{ end }}
   {{ end }}
 {{ end }}

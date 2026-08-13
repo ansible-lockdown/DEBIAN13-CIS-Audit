@@ -3,21 +3,18 @@
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_5_1_15 }}
 file:
-  ssh_loglevel:
-    title: 5.1.15 | Ensure sshd LogLevel is configured
+  ssh_logingrace:
+    title: 5.1.15 | Ensure sshd LoginGraceTime is configured
     path: /etc/ssh/sshd_config
     exists: true
     contents:
-    - '/^\s*LogLevel (VERBOSE|INFO)/'
-    - '!/^LogLevel DEBUG/'
+    - '/(?i)^LoginGraceTime ([1-9]|[1-5][0-9]|60)$/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 5.1.15
       NIST800-53R5:
-      - AU-3
-      - AU-12
-      - SI-5
- {{ end }}
+      - CM-6
+  {{ end }}
 {{ end }}

@@ -1,17 +1,16 @@
 ---
 
-{{ if .Vars.deb13cis_level_1 }}
+{{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_1_2_8 }}
-command:
-  rsyslog_logrotate:
-    title: 6.1.2.8 | Ensure logrotate is configured | Manual Check
+package:
+  rsyslog-gnutls:
+    title: 6.1.2.8 | Ensure rsyslog-gnutls is installed
     exec: echo "Manual | please check file rotaton matches site policy - logrotate"
-    exit-status: 0
-    stdout:
-    - '!/^Manual/'
+    name: rsyslog-gnutls
+    installed: true
     meta:
-      server: 1
-      workstation: 1
+      server: 2
+      workstation: 2
       CIS_ID:
       - 6.1.2.8
       NIST800-53R5:

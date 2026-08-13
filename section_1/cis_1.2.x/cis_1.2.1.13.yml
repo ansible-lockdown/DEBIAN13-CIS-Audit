@@ -1,0 +1,20 @@
+---
+
+{{ if .Vars.deb13cis_level_1 }}
+  {{ if .Vars.deb13cis_rule_1_2_1_13 }}
+file:
+  apt_allow_weak_repositories:
+    title: 1.2.1.13 | Ensure AllowWeakRepositories is configured
+    path: /etc/apt/apt.conf.d/99-no-insecure-repositories
+    exists: true
+    contents:
+    - '/^Acquire\:\:AllowWeakRepositories\s+"0";/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 1.2.1.13
+      NIST800-53R5:
+      - CM-7
+  {{ end }}
+{{ end }}

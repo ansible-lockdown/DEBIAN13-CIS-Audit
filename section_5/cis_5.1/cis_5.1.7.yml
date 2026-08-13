@@ -2,26 +2,22 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_5_1_7 }}
-file:
-  sshd_clientalive:
-    title: 5.1.7 | Ensure sshd ClientAliveInterval and ClientAliveCountMax are configured
-    path: /etc/ssh/sshd_config
-    exists: true
-    contents:
-    - '/^\s*ClientAliveInterval {{ .Vars.deb13cis_sshd_client_alive_interval }}/'
-    - '/^\s*ClientAliveCountMax {{ .Vars.deb13cis_sshd_client_alive_count_max }}/'
-    - '/^\s*ClientAliveInterval ([1-9]|[1-2][0-9][0-9]|300)/'
-    - '/^\s*ClientAliveCountMax [0-3]/'
+command:
+  sshd_ciphers:
+    title: 5.1.7 | Ensure sshd Ciphers are configured
+    exec: sshd -T | grep -Pi -- '^ciphers\h+\"?([^#\n\r]+,)?((3des|blowfish|cast128|aes(128|192|256))-cbc|arcfour(128|256)?|rijndael-cbc@lysator\.liu\.se)\b'
+    exit-status:
+      or:
+      - 0
+      - 1
+    stdout:
+    - '!/.*/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 5.1.7
       NIST800-53R5:
-      - CM-1
-      - CM-2
-      - CM-6
-      - CM-7
-      - IA-5
+      - SC-8
   {{ end }}
 {{ end }}

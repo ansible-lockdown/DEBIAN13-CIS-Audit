@@ -1,0 +1,33 @@
+---
+
+{{ if .Vars.deb13cis_level_1 }}
+  {{ if .Vars.deb13cis_rule_1_6_11 }}
+command:
+  update_notifier_motd_service:
+    title: 1.6.11 | Ensure update-notifier-motd.service is not in use
+    exec: systemctl is-enabled update-notifier-motd.service 2>/dev/null | grep -c '^enabled' ; true
+    exit-status: 0
+    stdout:
+    - '/^0$/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 1.6.11
+      NIST800-53R5:
+      - CM-7
+  update_notifier_motd_service_active:
+    title: 1.6.11 | Ensure update-notifier-motd.service is not in use | not active
+    exec: systemctl is-active update-notifier-motd.service 2>/dev/null | grep -c '^active' ; true
+    exit-status: 0
+    stdout:
+    - '/^0$/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 1.6.11
+      NIST800-53R5:
+      - CM-7
+  {{ end }}
+{{ end }}

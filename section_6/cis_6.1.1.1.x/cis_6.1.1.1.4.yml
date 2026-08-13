@@ -4,26 +4,23 @@
   {{ if eq .Vars.deb13cis_syslog "journald"}}
     {{ if .Vars.deb13cis_rule_6_1_1_1_4 }}
 command:
-  forward_journald_disabled:
-    title: 6.1.1.1.4 | Ensure journald ForwardToSyslog is disabled
-    exec: grep -i forwardtosyslog /etc/systemd/journald.conf /etc/systemd/journald.conf.d/*.conf
-    exit-status:
-      or:
-      - 0
-      - 1
+  /etc/tmpfiles.d/systemd.conf:
+    title: 6.1.1.1.4 | Ensure journald log file access is configured | Manual Check Required
+    exec: echo "Manual - Please check journald default permissions"
+    exit-status: 0
     stdout:
-    - '/.*\:ForwardToSyslog\s*=\s*no/'
-    - '!/.*\:ForwardToSyslog\s*=\s*yes/'
+    - '!/^Manual/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 6.1.1.1.4
       NIST800-53R5:
+      - AC-3
       - AU-2
-      - AU-6
-      - AU-7
       - AU-12
+      - MP-2
+      - SI-5
     {{ end }}
   {{ end }}
 {{ end }}

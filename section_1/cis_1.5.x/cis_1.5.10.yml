@@ -2,15 +2,16 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_1_5_10 }}
-kernel-param:
-  ptrace_restricted_live_2:
-    title: 1.5.10 | Ensure kernel.yama.ptrace_scope is configured | running
-    value:
+command:
+  system_coredump_conf:
+    title: 1.5.10 | Ensure core file size is configured
+    exec: grep -Ps -- '^\h*\*\h+hard\h+core\h+0\b' /etc/security/limits.conf /etc/security/limits.d/*
+    exit-status:
       or:
-      - 1
+      - 0
       - 2
-      - 3
-    name: kernel.yama.ptrace_scope
+    stdout:
+    - '/^*.conf:\* hard core 0/'
     meta:
       server: 1
       workstation: 1
@@ -18,17 +19,11 @@ kernel-param:
       - 1.5.10
       NIST800-53R5: CM-6
       CCI: CCI-000366
-command:
-  ptrace_restricted_conf_2:
-    title: 1.5.10 | Ensure kernel.yama.ptrace_scope is configured | conf
-    exit-status:
-      or:
-      - 0
-      - 1
-      - 2
-    exec: 'grep "kernel\.yama\.ptrace_scope" /etc/sysctl.conf /etc/sysctl.d/*'
-    stdout:
-    - '/^*.conf:kernel.yama.ptrace_scope\s*=\s*(1|2|3)$/'
+kernel-param:
+  fs.suid_dumpable_sysctl:
+    title: 1.5.10 | Ensure core file size is configured
+    value: '0'
+    name: fs.suid_dumpable
     meta:
       server: 1
       workstation: 1

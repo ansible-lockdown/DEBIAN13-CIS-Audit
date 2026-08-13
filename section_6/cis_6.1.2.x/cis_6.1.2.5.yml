@@ -2,33 +2,25 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_1_2_5 }}
-file:
-  rsyslog_logging:
-    title: 6.1.2.5 | Ensure rsyslog logging is configured
-    path: /etc/rsyslog.conf
-    exists: true
-    contents:
-    - '/^\*.emerg\s+:omusrmsg:\*/'
-    - '/^auth,authpriv\.\*\s+/var/log/secure/'
-    - '/^mail.\*\s+-/var/log/mail/'
-    - '/^mail.info\s+-/var/log/mail.info/'
-    - '/^mail.err\s+/var/log/mail.err/'
-    - '/^cron.\*\s+/var/log/cron/'
-    - '/^\*\.=warning;\*\.=err\s+-/var/log/warn/'
-    - '/^\*\.crit\s+/var/log/warn/'
-    - '/^\*\.\*;mail\.none;news\.none\s+-/var/log/messages/'
-    - '/^local0,local1.\*\s+-/var/log/localmessages/'
-    - '/^local2,local3.\*\s+-/var/log/localmessages/'
-    - '/^local4,local5.\*\s+-/var/log/localmessages/'
-    - '/^local6,local7.\*\s+-/var/log/localmessages/'
+    {{ if not .Vars.deb13cis_remote_log_host }}
+command:
+  remote_syslog:
+    title: 6.1.2.5 | Ensure rsyslog is configured to send logs to a remote log host
+    exec: 'grep -E "action.*omfwd.*target" /etc/rsyslog.conf /etc/rsyslog.d/*.conf'
+    exit-status:
+      or:
+      - 0
+      - 2
+    stdout:
+    - '*.* action(type="omfwd" target="{{ .Vars.deb13cis_remote_log_host }}" port="{{ .Vars.deb13cis_remote_log_port }}"'
+    - protocol="{{ .Vars.deb13cis_remote_log_protocol }}"
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 6.1.2.5
       NIST800-53R5:
-      - AU-2
-      - AU-7
-      - AU-12
+      - AU-6
+    {{ end }}
   {{ end }}
 {{ end }}

@@ -1,6 +1,6 @@
 ---
 
-{{ if .Vars.deb13cis_level_2 }}
+{{ if .Vars.deb13cis_level_1 }}
     {{ if .Vars.deb13cis_rule_1_2_1_3 }}
 command:
   gpg_keys_perms:
@@ -13,8 +13,8 @@ command:
     stdout:
     - '!/./'
     meta:
-      server: 2
-      workstation: 2
+      server: 1
+      workstation: 1
       CIS_ID:
       - 1.2.1.3
       NIST800-53R5: NA
@@ -32,8 +32,8 @@ command:
     stdout:
     - '!/./'
     meta:
-      server: 2
-      workstation: 2
+      server: 1
+      workstation: 1
       CIS_ID:
       - 1.2.1.3
       NIST800-53R5: NA

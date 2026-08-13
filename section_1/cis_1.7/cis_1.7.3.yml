@@ -3,24 +3,37 @@
 {{ if .Vars.deb13cis_desktop_required }}
   {{ if .Vars.deb13cis_level_1 }}
     {{ if .Vars.deb13cis_rule_1_7_3 }}
-command:
-  gdm_last_login:
-    title: 1.7.3 | Ensure GDM disable-user-list option is enabled
-    exec: gsettings get org.gnome.login-screen disable-user-list
-    exit-status: 0
-    stdout:
-    - '/^true/'
+file:
+  gdm_screensaver:
+    title: 1.7.3 | Ensure GDM screen lock is configured
+    path: /etc/dconf/db/{{ .Vars.deb13cis_dconf_db_name }}.d/00-screensaver
+    exists: true
+    contents:
+    - '/^\[org\/gnome\/desktop\/session\]$/'
+    - '/^idle-delay=uint32 {{ .Vars.deb13cis_screensaver_idle_delay }}$/'
+    - '/^\[org\/gnome\/desktop\/screensaver\]$/'
+    - '/^lock-delay=uint32 {{ .Vars.deb13cis_screensaver_lock_delay }}$/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 1.7.3
       NIST800-53R5:
-      - CM-1
-      - CM-2
-      - CM-6
-      - CM-7
-      - IA-5
+      - NA
+  gdm_screensaver_lock:
+    title: 1.7.3 | Ensure GDM screen lock is configured | lock override
+    path: /etc/dconf/db/{{ .Vars.deb13cis_dconf_db_name }}.d/locks/00-screensaver
+    exists: true
+    contents:
+    - '/^\/org\/gnome\/desktop\/session\/idle-delay$/'
+    - '/^\/org\/gnome\/desktop\/screensaver\/lock-delay$/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 1.7.3
+      NIST800-53R5:
+      - CM-11
     {{ end }}
   {{ end }}
 {{ end }}

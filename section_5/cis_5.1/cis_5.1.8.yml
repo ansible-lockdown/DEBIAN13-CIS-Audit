@@ -1,21 +1,27 @@
 ---
 
-{{ if .Vars.deb13cis_level_2 }}
+{{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_5_1_8 }}
 file:
-  sshd_disableforwarding:
-    title: 5.1.8 | Ensure sshd DisableForwarding is enabled
+  sshd_clientalive:
+    title: 5.1.8 | Ensure sshd ClientAliveInterval and ClientAliveCountMax are configured
     path: /etc/ssh/sshd_config
     exists: true
     contents:
-    - '/^\s*DisableForwarding yes/'
-    - '!/^DisableForwarding no/'
+    - 'ClientAliveInterval {{ .Vars.deb13cis_sshd_client_alive_interval }}'
+    - 'ClientAliveCountMax {{ .Vars.deb13cis_sshd_client_alive_count_max }}'
+    - '/ClientAliveInterval ([1-9]|[1-2][0-9][0-9]|300)/'
+    - '/ClientAliveCountMax [0-3]/'
     meta:
-      server: 2
+      server: 1
       workstation: 1
       CIS_ID:
       - 5.1.8
       NIST800-53R5:
+      - CM-1
+      - CM-2
+      - CM-6
       - CM-7
+      - IA-5
   {{ end }}
 {{ end }}

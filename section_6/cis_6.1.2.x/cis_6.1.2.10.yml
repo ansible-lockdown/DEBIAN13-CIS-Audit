@@ -3,17 +3,15 @@
 {{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_1_2_10 }}
 command:
-  forwarding_gtls:
-    title: 6.1.2.10 | Ensure rsyslog forwarding uses gtls
-    exec: grep -Psi -- '^\h*StreamDriver=\"gtls\"' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
+  rsyslog_ca:
+    title: 6.1.2.10 | Ensure rsyslog CA certificates are configured
+    exec: grep -Psi -- 'DefaultNetstreamDriverCAFile' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
     exit-status:
       or:
       - 0
       - 1
     stdout:
-    - 'StreamDriver="gtls"'
-    - 'StreamDriverAuthMode="anon"'
-    - 'StreamDriverMode="1"'
+    - '.*:/global(DefaultNetstreamDriverCAFile="{{ deb13cis_rsyslog_stream_cafile }}")'
     meta:
       server: 1
       workstation: 2

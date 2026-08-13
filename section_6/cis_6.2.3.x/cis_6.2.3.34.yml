@@ -3,31 +3,17 @@
 {{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_2_3_34 }}
 command:
-  auditd_query_cnf:
-    title: 6.2.3.34 | Ensure kernel query_module loading unloading and modification is collected | conf check
-    exec: grep query /etc/audit/rules.d/*.rules
+  auditd_ignore_errors:
+    title: 6.2.3.34 | Ensure the audit configuration is loaded regardless of errors
+    exec: grep -w '\-c' /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S create_module,query_module -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -k kernel_modules/'
+    - '-c'
     meta:
       server: 2
       workstation: 2
       CIS_ID:
       - 6.2.3.34
-      NIST800-53R5:
-      - AU-12
-  auditd_query_module_live:
-    title: 6.2.3.34 | Ensure kernel query_module loading unloading and modification is collected | running
-    exec: auditctl -l | grep query
-    exit-status: 0
-    stdout:
-    - '/-a always,exit -F arch=b64 -S create_module,query_module -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295)/'
-    meta:
-      server: 2
-      workstation: 2
-      CIS_ID:
-      - 6.2.3.34
-      NIST800-53R5:
-      - AU-12
+      NIST800-53R5: NA
   {{ end }}
 {{ end }}

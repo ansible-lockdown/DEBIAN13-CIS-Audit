@@ -3,22 +3,22 @@
 {{ if .Vars.deb13cis_level_1 }}
     {{ if .Vars.deb13cis_rule_6_1_1_1_6 }}
 command:
-  compress_journald_conf:
-    title: 6.1.1.1.6 | Ensure journald Compress is configured
-    exec: grep -i Compress= /etc/systemd/journald.conf /etc/systemd/journald.conf.d/*.conf
+  storage_journald_conf:
+    title: 6.1.1.1.6 | Ensure journald Storage is configured
+    exec: grep -i Storage= /etc/systemd/journald.conf /etc/systemd/journald.conf.d/*.conf
     exit-status:
       or:
       - 0
       - 1
     stdout:
-    - '/.*\:Compress\s*=\s*yes/'
-    - '!/.*\:Compress\s*=\s*[Nn][Oo]/'
+    - '/.*\:Storage=persistent/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 6.1.1.1.6
       NIST800-53R5:
-      - AU-4
+      - AU-3
+      - AU-12
     {{ end }}
 {{ end }}

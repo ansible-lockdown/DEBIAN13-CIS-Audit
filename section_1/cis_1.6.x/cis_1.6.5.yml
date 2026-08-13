@@ -1,26 +1,23 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-file:
   {{ if .Vars.deb13cis_rule_1_6_5 }}
-  etc_issue_perms:
-    title: 1.6.5 | Ensure access to /etc/issue is configured
-    path: /etc/issue
+file:
+  sshd_warning_banner_content:
+    title: 1.6.5 | Ensure sshd warning Banner is configured
+    path: {{ .Vars.deb13cis_sshd_banner_file }}
     exists: true
-    mode:
-      or:
-      - "0644"
-      - "0640"
-      - "0600"
-    owner: root
-    group: root
+    contents:
+    - '!/(\\v|\\r|\\m|\\s)/'
+    - '!/(?i)debian/'
     meta:
       server: 1
       workstation: 1
       CIS_ID:
       - 1.6.5
       NIST800-53R5:
-      - AC-3
-      - MP-2
+      - CM-1
+      - CM-3
+      - CM-6
   {{ end }}
 {{ end }}
