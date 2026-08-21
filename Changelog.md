@@ -22,6 +22,7 @@
   - 3.2.7: manual check pattern, was asserting no net module is loaded
   - 1.6.11 and 1.6.12: command checks, pass cleanly when the unit is absent
   - 7.2.11: asserts on a counted result rather than empty output
+  - README updates and updated contributing and contributors
 
 ## Based on CIS v1.0.0 - Branch align_1.0.0
 
