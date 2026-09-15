@@ -16,6 +16,8 @@
   "Manual", so it could only ever fail and checked nothing. Replaced with conf and running
   checks on the -k privileged rules, in the POSIX echo-on-failure style used by 6.2.3.9
 
+- updated from Audit to AUDIT
+
 ## Based on CIS v1.0.0 - Branch align_1.0.0
 
 - 5.4.2.8 used bash process substitution. Goss runs commands under sh, which is dash on Debian,
