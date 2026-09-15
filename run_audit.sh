@@ -28,7 +28,7 @@
 
 # Goss benchmark variables (these should not need changing unless new release)
 BENCHMARK=CIS # Benchmark Name aligns to the audit
-BENCHMARK_VER=1.0.0
+BENCHMARK_VER=1.1.0
 BENCHMARK_OS=DEBIAN13
 
 # Goss host Variables
