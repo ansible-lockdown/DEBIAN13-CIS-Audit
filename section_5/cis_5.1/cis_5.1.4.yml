@@ -2,20 +2,29 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_5_1_4 }}
+{{ if or .Vars.deb13cis_sshd_allow_users .Vars.deb13cis_sshd_allow_groups .Vars.deb13cis_sshd_deny_users .Vars.deb13cis_sshd_deny_groups }}
 command:
   sshd_access_limited:
     title: 5.1.4 | Ensure sshd access is configured | config
-    exec: grep -Ei "^(Allow|Deny)(Users|Groups)" /etc/ssh/sshd_config /etc/ssh/sshd_config.d/*.conf
+    exec: grep -RhiE '^[[:space:]]*(Allow|Deny)(Users|Groups)' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/
     exit-status:
       or:
       - 0
       - 1
       - 2
     stdout:
-    - 'allowusers: {{ .Vars.deb13cis_sshd_allow_users }}'
-    - 'allowgroups: {{ .Vars.deb13cis_sshd_allow_groups }}'
-    - 'denyusers: {{ .Vars.deb13cis_sshd_deny_users }}'
-    - 'denygroups: {{ .Vars.deb13cis_sshd_deny_groups }}'
+{{ if .Vars.deb13cis_sshd_allow_users }}
+    - '/(?i)^[[:space:]]*AllowUsers[[:space:]]+{{ .Vars.deb13cis_sshd_allow_users }}/'
+{{ end }}
+{{ if .Vars.deb13cis_sshd_allow_groups }}
+    - '/(?i)^[[:space:]]*AllowGroups[[:space:]]+{{ .Vars.deb13cis_sshd_allow_groups }}/'
+{{ end }}
+{{ if .Vars.deb13cis_sshd_deny_users }}
+    - '/(?i)^[[:space:]]*DenyUsers[[:space:]]+{{ .Vars.deb13cis_sshd_deny_users }}/'
+{{ end }}
+{{ if .Vars.deb13cis_sshd_deny_groups }}
+    - '/(?i)^[[:space:]]*DenyGroups[[:space:]]+{{ .Vars.deb13cis_sshd_deny_groups }}/'
+{{ end }}
     meta:
       server: 1
       workstation: 1
@@ -24,5 +33,6 @@ command:
       NIST800-53R5:
       - AC-3
       - MP-2
+{{ end }}
   {{ end }}
 {{ end }}

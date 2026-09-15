@@ -1,7 +1,7 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-  {{ if .Vars.deb13cis_rule_2_1_6 }}
+  {{ if .Vars.deb13cis_rule_2_1_7 }}
     {{ if not .Vars.deb13cis_ldap_server }}
       {{ if not .Vars.deb13cis_ldap_mask }}
 package:

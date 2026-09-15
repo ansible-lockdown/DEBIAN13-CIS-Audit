@@ -4,9 +4,9 @@
   {{ if .Vars.deb13cis_level_1 }}
     {{ if .Vars.deb13cis_rule_1_7_10 }}
 file:
-  /etc/gdm/custom.conf:
+  gdm_xdmcp_disabled:
     title: 1.7.10 | Ensure XDMCP is not enabled
-    path: /etc/gdm/custom.conf
+    path: /etc/gdm3/custom.conf
     exists: true
     contents:
     - '!/^Enable\s*=\s*true/'

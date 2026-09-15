@@ -1,7 +1,7 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-  {{ if .Vars.deb13cis_rule_3_2_2 }}
+  {{ if .Vars.deb13cis_rule_3_2_6 }}
 command:
   modprobe_TIPC:
     title: 3.2.6 | Ensure tipc kernel module is not available | tipc config

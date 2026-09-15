@@ -28,7 +28,7 @@ The listed variable for every control/benchmark can be turned on/off or section
 
 ## Requirements
 
-goss >= 0.4.7
+goss >= 0.4.8
 root privileges
 
 ## Branches

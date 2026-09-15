@@ -5,7 +5,7 @@
     {{ if .Vars.deb13cis_rule_1_7_2 }}
 command:
   gdm_profile_banner:
-    title: 1.7.2 | Ensure GDM login banner is configured
+    title: 1.7.2 | Ensure GDM login banner is configured | banner enabled
     exec: gsettings get org.gnome.login-screen banner-message-enable
     exit-status: 0
     stdout:
@@ -21,8 +21,8 @@ command:
       - CM-6
       - CM-7
       - IA-5
-  gdm_profile_banner:
-    title: 1.7.2 | Ensure GDM login banner is configured
+  gdm_profile_banner_text:
+    title: 1.7.2 | Ensure GDM login banner is configured | banner text
     exec: gsettings get org.gnome.login-screen banner-message-text
     exit-status: 0
     stdout:

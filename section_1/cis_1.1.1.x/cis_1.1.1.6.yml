@@ -3,10 +3,10 @@
 {{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_1_1_1_6 }}
 command:
-  overlayfs:
+  overlay:
     title: 1.1.1.6 | Ensure overlay kernel module is not available | disabled
     exit-status: 0
-    exec: "modprobe -n -v overlayfs | grep -E '(overlayfs|install)'"
+    exec: "modprobe -n -v overlay | grep -E '(overlay|install)'"
     stdout:
     - install /bin/true
     meta:
@@ -14,12 +14,12 @@ command:
       workstation: 2
       CIS_ID: 1.1.1.6
       NIST800-53R5: CM-7
-  blacklist_overlayfs:
+  blacklist_overlay:
     title: 1.1.1.6 | Ensure overlay kernel module is not available | blacklist
     exit-status: 0
-    exec: grep overlayfs /etc/modprobe.d/*.conf
+    exec: grep overlay /etc/modprobe.d/*.conf
     stdout:
-      - '/blacklist overlayfs/'
+      - '/blacklist overlay/'
     meta:
       server: 2
       workstation: 2

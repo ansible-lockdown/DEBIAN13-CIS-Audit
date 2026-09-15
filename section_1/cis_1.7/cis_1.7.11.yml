@@ -4,9 +4,9 @@
   {{ if .Vars.deb13cis_level_2 }}
     {{ if .Vars.deb13cis_rule_1_7_11 }}
 file:
-  /etc/gdm/custom.conf:
+  gdm_xwayland_config:
     title: 1.7.11 | Ensure Xwayland is configured
-    path: /etc/gdm/custom.conf
+    path: /etc/gdm3/custom.conf
     exists: true
     contents:
     - '!/^WaylandEnable\s*=\s*true/'

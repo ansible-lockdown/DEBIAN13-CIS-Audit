@@ -15,7 +15,7 @@ file:
     - '!/(?i)ubuntu.*/'
     - '!/(?i)kernel.*/'
     - '!/x86_64/'
-    - '!/(?i)linux'
+    - '!/(?i)linux.*/'
     meta:
       server: 1
       workstation: 1

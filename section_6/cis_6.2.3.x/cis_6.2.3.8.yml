@@ -5,12 +5,14 @@
 command:
   auditd_locale_cnf:
     title: 6.2.3.8 | Ensure events that modify the system's network environment are collected | conf check
-    exec: grep system-locale /etc/audit/rules.d/*.rules
+    exec: |
+      for p in /etc/network/interfaces /etc/network/interfaces.d /etc/netplan; do
+      [ -e "$p" ] || continue
+      grep -hs '^-a .*system-locale' /etc/audit/rules.d/*.rules | grep -qE -- "(path|dir)=${p}/?([[:space:]]|$)" || echo "MISSING $p"
+      done
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F path=/etc/network/interfaces -F perm=wa -k system-locale'
-    - '-a always,exit -F arch=b64 -S all -F dir=/etc/network/interfaces.d -F perm=wa -k system-locale'
-    - '-a always,exit -F arch=b64 -S all -F dir=/etc/netplan/ -F perm=wa -k system-locale'
+    - '!/./'
     meta:
       server: 2
       workstation: 2
@@ -21,12 +23,14 @@ command:
       - CM-6
   auditd_locale_live:
     title: 6.2.3.8 | Ensure events that modify the system's network environment are collected | running
-    exec: auditctl -l | grep system-locale
+    exec: |
+      for p in /etc/network/interfaces /etc/network/interfaces.d /etc/netplan; do
+      [ -e "$p" ] || continue
+      auditctl -l 2>/dev/null | grep system-locale | grep -qE -- "(path|dir)=${p}/?([[:space:]]|$)" || echo "MISSING $p"
+      done
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F path=/etc/network/interfaces -F perm=wa -F key=system-locale'
-    - '-a always,exit -F arch=b64 -S all -F dir=/etc/network/interfaces.d -F perm=wa -F key=system-locale'
-    - '-a always,exit -F dir=/etc/netplan/ -F perm=wa'
+    - '!/./'
     meta:
       server: 2
       workstation: 2

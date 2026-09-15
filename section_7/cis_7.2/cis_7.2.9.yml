@@ -32,13 +32,16 @@ command:
       NIST800-53R5: CM-6
   home_dirs_restrict:
     title: 7.2.9 | Ensure local interactive user home directories are configured | permissions
-    exec: for i in $(getent passwd $(seq 1000 60000) | awk '{split($0,a,":");print a[6]}'); do stat $i; done
-    exit-status: 0
+    exec: |
+      for i in $(getent passwd $(seq 1000 60000) | awk -F: '{print $6}'); do
+      stat -Lc '%n %a' "$i" 2>/dev/null; done | grep -vE ' (700|750)$'
+    exit-status:
+      or:
+      - 0
+      - 1
     timeout: {{ .Vars.timeout_ms }}
     stdout:
-      or:
-      - '/^750\s/'
-      - '/^700\s/'
+    - '!/./'
     meta:
       server: 1
       workstation: 1

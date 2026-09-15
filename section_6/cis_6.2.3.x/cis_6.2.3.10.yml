@@ -4,11 +4,26 @@
   {{ if .Vars.deb13cis_rule_6_2_3_10 }}
 command:
   auditd_priv_cmds_cnf:
-    title: 6.2.3.10 | Ensure use of privileged commands are collected | Manual Check Required
-    exec: echo "Manual - Please investigate privilege commands are collected as per documentation"
+    title: 6.2.3.10 | Ensure use of privileged commands are collected | conf check
+    exec: |
+      grep -hsqE -- '^-a always,exit -F path=[^[:space:]]+ -F perm=x -F auid>=[0-9]+ -F auid!=unset -k privileged$' /etc/audit/rules.d/*.rules || echo "MISSING privileged command rules"
     exit-status: 0
     stdout:
-    - '!/Manual/'
+    - '!/./'
+    meta:
+      server: 2
+      workstation: 2
+      CIS_ID:
+      - 6.2.3.10
+      NIST800-53R5:
+      - AU-3
+  auditd_priv_cmds_live:
+    title: 6.2.3.10 | Ensure use of privileged commands are collected | running
+    exec: |
+      auditctl -l 2>/dev/null | grep -E -- 'path=[^[:space:]]+' | grep -E -- 'perm=x' | grep -qE -- '(-k|key=)[[:space:]]?privileged([[:space:]]|$)' || echo "MISSING privileged command rules"
+    exit-status: 0
+    stdout:
+    - '!/./'
     meta:
       server: 2
       workstation: 2

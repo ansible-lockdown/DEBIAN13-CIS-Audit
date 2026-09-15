@@ -1,7 +1,7 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-  {{ if .Vars.deb13cis_rule_2_1_20 }}
+  {{ if .Vars.deb13cis_rule_2_1_21 }}
     {{ if not .Vars.deb13cis_xwindow_server }}
 package:
   xwindow_pkg:

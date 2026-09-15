@@ -1,7 +1,7 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-  {{ if .Vars.deb13cis_rule_2_1_14 }}
+  {{ if .Vars.deb13cis_rule_2_1_15 }}
     {{ if not .Vars.deb13cis_snmp_server }}
       {{ if not .Vars.deb13cis_snmp_mask }}
 package:

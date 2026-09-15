@@ -5,10 +5,13 @@
 command:
   auditd_NWmgr_cnf:
     title: 6.2.3.9 | Ensure events that modify /etc/NetworkManager directory are collected | conf check
-    exec: grep system-locale /etc/audit/rules.d/*.rules
+    exec: |
+      if [ -e /etc/NetworkManager ]; then
+      grep -hs '^-a .*system-locale' /etc/audit/rules.d/*.rules | grep -qE -- "(path|dir)=/etc/NetworkManager/?([[:space:]]|$)" || echo "MISSING /etc/NetworkManager"
+      fi
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F dir=/etc/NetworkManager/ -F perm=wa -k system-locale'
+    - '!/./'
     meta:
       server: 2
       workstation: 2
@@ -19,10 +22,13 @@ command:
       - CM-6
   auditd_MWmgr_live:
     title: 6.2.3.9 | Ensure events that modify /etc/NetworkManager directory are collected | running
-    exec: auditctl -l | grep system-locale
+    exec: |
+      if [ -e /etc/NetworkManager ]; then
+      auditctl -l 2>/dev/null | grep system-locale | grep -qE -- "(path|dir)=/etc/NetworkManager/?([[:space:]]|$)" || echo "MISSING /etc/NetworkManager"
+      fi
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F dir=/etc/NetworkManager/ -F perm=wa'
+    - '!/./'
     meta:
       server: 2
       workstation: 2

@@ -7,13 +7,11 @@ command:
     title: 1.2.1.3 | Ensure access to gpg key files are configured | gpg_key perms
     exit-status: 0
     exec: |
-      while IFS= read -r -d $'\0' l_file; do \
-      stat -Lc 'File: %n Mode: (%#a) User: (%U) Group: (%G)' "$l_file" \
-      done < <(find -L /usr/share/keyrings/ /etc/apt/trusted.gpg.d/ \
+      find -L /usr/share/keyrings/ /etc/apt/trusted.gpg.d/ \
       -mount -xdev -type f \( ! -user root -o ! -group root -o -perm /133 \) \
-      -name '*gpg' -print0)
+      -name '*gpg' -exec stat -Lc 'File: %n Mode: (%#a) User: (%U) Group: (%G)' {} +
     stdout:
-    - '!/.*/'
+    - '!/./'
     meta:
       server: 2
       workstation: 2
@@ -22,16 +20,17 @@ command:
       NIST800-53R5: NA
   gpg_keys_perms_signed:
     title: 1.2.1.3 | Ensure access to gpg key files are configured | gpg_key_signed perms
-    exit-status: 0
+    exit-status:
+      or:
+      - 0
+      - 1
     exec: |
-      while IFS= read -r -d $'\0' l_file; do
-      grep -Psq -- '^([^#\n\r]+)?\bSigned-By\b' "$l_file" && \
-      stat -Lc 'File: %n Mode: (%#a) User: (%U) Group: (%G)' "$l_file"
-      done < <(find -L /etc/apt/sources.list.d/ -mount -xdev -type f \
+      find -L /etc/apt/sources.list.d/ -mount -xdev -type f \
       \( ! -user root -o ! -group root -o -perm /133 \) \
-      \( -name '*.list' -o -name '*.sources' \) -print0)
+      \( -name '*.list' -o -name '*.sources' \) \
+      -exec grep -lsE '^([^#]*)?[[:space:]]*Signed-By' {} +
     stdout:
-    - '!/.*/'
+    - '!/./'
     meta:
       server: 2
       workstation: 2

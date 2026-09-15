@@ -2,16 +2,13 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_1_5_13 }}
-command:
+file:
   coredump_storage_conf:
     title: 1.5.13 | Ensure systemd-coredump Storage is configured
-    exec: grep -Ri '^Storage' /etc/systemd/coredump.conf.d/*
-    exit-status:
-      or:
-      - 0
-      - 2
-    stdout:
-    - '/^*.conf:Storage\s*=\s*none/'
+    path: /etc/systemd/coredump.conf
+    exists: true
+    contents:
+    - '/^Storage\s*=\s*none\s*$/'
     meta:
       server: 1
       workstation: 1

@@ -10,9 +10,12 @@ command:
       - 0
       - 1
       - 2
-    exec: grep -PRLs -- '^([^#\n\r]+)?\bSigned-By\b' /etc/apt/sources.list /etc/apt/sources.list.d/*.{list,sources}
+    exec: |
+      find /etc/apt/sources.list /etc/apt/sources.list.d/ -maxdepth 1 -type f \
+      \( -name 'sources.list' -o -name '*.list' -o -name '*.sources' \) \
+      -exec grep -LEs -- '^([^#]*)?[[:space:]]*Signed-By' {} +
     stdout:
-    - '!/.*/'
+    - '!/./'
     meta:
       server: 1
       workstation: 1
