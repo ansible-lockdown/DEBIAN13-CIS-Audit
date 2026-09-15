@@ -35,7 +35,7 @@ root privileges
 
 If running as part of the ansible playbook, this will pull in the relevant branch for the version of benchmark you are remediating.
 
-- e.g. 1.1.0 will pull in branch benchmark_1.1.0
+- e.g. 1.1.0 will pull in branch benchmark_v1.1.0
 
 Devel is normally the latest benchmark version, so maybe different from the version of benchmark you wish to test.
 Details will show in the README as part of the remedation as to the benchmark for the version it is written for.
