@@ -87,7 +87,7 @@ fi
 
 #### Main Script ####
 
-audit_content_version=$BENCHMARK_OS-$BENCHMARK-Audit
+audit_content_version=$BENCHMARK_OS-$BENCHMARK-AUDIT
 audit_content_dir=$AUDIT_CONTENT_LOCATION/$audit_content_version
 audit_vars=vars/${BENCHMARK}.yml
 
