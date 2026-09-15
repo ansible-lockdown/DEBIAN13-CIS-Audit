@@ -2,7 +2,7 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_1_2_5 }}
-    {{ if not .Vars.deb13cis_remote_log_host }}
+    {{ if .Vars.deb13cis_remote_log_server }}
 command:
   remote_syslog:
     depends-on:

@@ -3,7 +3,7 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_1_2_6 }}
-    {{ if not .Vars.deb13cis_remote_log_host }}
+    {{ if not .Vars.deb13cis_system_is_log_server }}
 command:
   local_syslog_module:
     depends-on:
