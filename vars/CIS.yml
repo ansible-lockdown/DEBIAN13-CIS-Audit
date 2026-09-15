@@ -642,7 +642,6 @@ deb13cis_inactivelock_include_root: false
 
 # Control 6.1.x
 
-# Control 6.3.1 - install and configure AIDE
 deb13cis_config_aide: true
 
 # aide setup via - cron, timer
@@ -662,6 +661,7 @@ deb13cis_system_is_log_server: false
 deb13cis_remote_log_server: false
 
 # Log server settings
+deb13cis_remote_log_server: false
 deb13cis_remote_log_host: logagg.example.com
 deb13cis_remote_log_port: 514
 deb13cis_remote_log_protocol: tcp
