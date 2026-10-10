@@ -8,7 +8,7 @@ file:
     path: /etc/ssh/sshd_config
     exists: true
     contents:
-    - 'Banner /etc/issue.net'
+    - '/^\s*Banner \/etc\/issue\.net/'
     - '!/^Banner none/'
     meta:
       server: 1

@@ -5,13 +5,13 @@
 command:
   apt_auth_conf_files:
     title: 1.2.1.6 | Ensure access to files in the /etc/apt/auth.conf.d/ directory is configured
-    exec: "stat -Lc 'Access: (%a/%A) Uid: ( %u/ %U) Gid: ( %g/ %G)' /etc/apt/auth.conf.d/* 2>/dev/null"
+    exec: "find -L /etc/apt/auth.conf.d/ -type f -name '*.conf' \\( ! -user root -o ! -group root -o -perm /0137 \\) 2>/dev/null"
     exit-status:
       or:
       - 0
       - 1
     stdout:
-    - '!/.*/'
+    - '!/./'
     meta:
       server: 1
       workstation: 1

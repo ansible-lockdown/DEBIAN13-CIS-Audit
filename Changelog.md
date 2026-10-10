@@ -1,5 +1,37 @@
 # Debian 13 CIS
 
+## October 2026 - QA fixes
+
+- 5.4.1.5 root checked only when deb13cis_inactivelock_include_root is true
+- 6.1.1.1.x journald tests run whatever the syslog choice, 6.1.1.1.4 journald only
+- goss files start with --- on line 1
+- 7.1.11 to 7.1.13 read the mount point from $6
+- 7.1.13 SUID/SGID review checks package ownership and integrity
+- 1.3.1.3 rewritten for dash, complain and unconfined counts
+- 5.3.3.4.1 and 5.3.3.4.2 list the common-* files explicitly
+- 7.2.9 uid range read with awk
+- 2.1.2 package avahi-daemon, 2.1.16 package telnetd
+- 2.1.22 postfix check only when postfix is installed
+- 6.2.3.19 asserts the chown syscalls
+- 6.2.4.6 and 6.2.4.7 use find ! -user / ! -group root
+- 5.4.1.2 lists only passwords with min days below 1
+- 5.4.1.5 uses the benchmark inactive check
+- 1.2.1.6 and 1.2.1.9 use find with owner and mode
+- 5.4.2.1 to 5.4.2.3 use awk instead of character classes
+- 7.2.5 to 7.2.8 sort before uniq -d
+- standalone.yml globs aligned with goss.yml
+- config file assertions anchored so comments cannot satisfy them
+- 6.1.2.11 CA file variable read from .Vars, rsyslog audits no longer abort
+- 6.1.2.9 invalid exec attribute removed from the package test
+- 6.1.2.3 reads the effective journald ForwardToSyslog value
+- 6.1.2.6 gated on deb13cis_remote_log_server, 6.1.2.7 split client and server
+- 6.3.1 gated on deb13cis_config_aide
+- level gates corrected for 3.3.2.1, 3.3.2.2, 5.4.1.2 and 6.3.3
+- deb13cis_exclude_unowned_search_path spacing fixed
+- Company name updated to MindPoint Group - A Quantum Sky Company
+- run_audit.sh uses syver v0.13.0 by default
+- README describes syver
+
 ## Based on CIS v1.0.0 - Branch sept26_updates
 
 - 1.7.2 defined the goss key gdm_profile_banner twice in one command: map, so the

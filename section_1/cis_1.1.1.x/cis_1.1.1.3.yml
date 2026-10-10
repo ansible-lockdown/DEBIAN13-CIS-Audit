@@ -19,7 +19,7 @@ command:
     exit-status: 0
     exec: grep hfs /etc/modprobe.d/*.conf
     stdout:
-      - '/blacklist hfs/'
+      - '/^([^:]+:)?\s*blacklist\s+hfs\b/'
     meta:
       server: 1
       workstation: 1

@@ -19,7 +19,7 @@ command:
     exit-status: 0
     exec: grep overlay /etc/modprobe.d/*.conf
     stdout:
-      - '/blacklist overlay/'
+      - '/^([^:]+:)?\s*blacklist\s+overlay\b/'
     meta:
       server: 2
       workstation: 2

@@ -19,7 +19,7 @@ command:
     exit-status: 0
     exec: grep freevxfs /etc/modprobe.d/*.conf
     stdout:
-      - '/blacklist freevxfs/'
+      - '/^([^:]+:)?\s*blacklist\s+freevxfs\b/'
     meta:
       server: 1
       workstation: 1
