@@ -5,7 +5,7 @@
 file:
   ssh_userenv:
     title: 5.1.23 | Ensure sshd PermitUserEnvironment is disabled
-    path: /etc/ssh/sshd_config
+    path: {{ .Vars.deb13cis_sshd_config_file }}
     exists: true
     contents:
     - '/(?i)^PermitUserEnvironment no/'

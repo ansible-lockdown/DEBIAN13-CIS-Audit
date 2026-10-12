@@ -37,6 +37,9 @@
   - level meta corrected for 1.1.1.11, 1.2.1.4, 1.2.1.5, 1.2.1.7, 1.2.1.8, 1.6.12, 2.2.3, 2.2.4, 2.2.6, 5.3.3.1.3, 6.1.2.9, 6.1.2.10, 6.2.1.3
   - README requirements and links describe syver
   - 1.7.2: checks the user dconf profile and the disable-user-list lock
+  - 5.1.x: sshd_config path from deb13cis_sshd_config_file
+  - 6.2.3.26: no longer gated on deb13cis_apparmor_disable
+  - 7.2.11: checks interactive user homes, not only /home
 
 ## October 2026 - QA fixes
 

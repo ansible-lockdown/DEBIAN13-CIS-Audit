@@ -5,7 +5,7 @@
 file:
   sshd_config_perms:
     title: 5.1.1 | Ensure access to /etc/ssh/sshd_config is configured
-    path: /etc/ssh/sshd_config
+    path: {{ .Vars.deb13cis_sshd_config_file }}
     exists: true
     mode:
       or:

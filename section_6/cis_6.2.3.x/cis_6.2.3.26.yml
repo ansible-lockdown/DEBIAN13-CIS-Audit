@@ -1,8 +1,7 @@
 ---
 
 {{ if .Vars.deb13cis_level_2 }}
-  {{ if not .Vars.deb13cis_apparmor_disable }}
-    {{ if .Vars.deb13cis_rule_6_2_3_26 }}
+  {{ if .Vars.deb13cis_rule_6_2_3_26 }}
 command:
   auditd_MAC_cnf:
     title: 6.2.3.26 | Ensure events that modify the system's Mandatory Access Controls are collected | conf
@@ -34,6 +33,5 @@ command:
       NIST800-53R5:
       - AU-3
       - CM-6
-    {{ end }}
   {{ end }}
 {{ end }}

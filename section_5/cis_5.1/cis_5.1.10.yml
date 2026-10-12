@@ -5,7 +5,7 @@
 file:
   sshd_gssapiauth:
     title: 5.1.10 | Ensure sshd GSSAPIAuthentication is disabled
-    path: /etc/ssh/sshd_config
+    path: {{ .Vars.deb13cis_sshd_config_file }}
     exists: true
     contents:
     - '/^\s*GSSAPIAuthentication no/'

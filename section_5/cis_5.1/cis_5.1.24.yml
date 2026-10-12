@@ -5,7 +5,7 @@
 file:
   ssh_usepam:
     title: 5.1.24 | Ensure sshd UsePAM is enabled
-    path: /etc/ssh/sshd_config
+    path: {{ .Vars.deb13cis_sshd_config_file }}
     exists: true
     contents:
     - '/(?i)^\s*UsePAM yes/'

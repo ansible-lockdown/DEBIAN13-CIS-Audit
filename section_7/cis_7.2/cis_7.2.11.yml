@@ -6,7 +6,7 @@
 command:
   dot_dir_perms:
     title: 7.2.11 | Ensure local interactive user dot directories access is configured | dot directory permissions
-    exec: find /home/ -type d -name '.*' ! -name .ssh -perm /g=w,o=rwx 2>/dev/null | wc -l
+    exec: for h in $(grep -E -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F':' '(!index($7, "sbin/nologin") && $7 != "/bin/nologin" && $7 != "/bin/false") { print $6 }'); do [ -d "$h" ] && find "$h" -type d -name '.*' ! -name .ssh -perm /g=w,o=rwx 2>/dev/null; done | wc -l
     exit-status: 0
     timeout: {{ .Vars.timeout_ms }}
     stdout:
@@ -20,7 +20,7 @@ command:
       - AC-6
   dot_ssh_dir_perms:
     title: 7.2.11 | Ensure local interactive user dot directories access is configured | ssh directory permissions
-    exec: find /home/ -type d -name .ssh -perm /g=rwx,o=rwx 2>/dev/null | wc -l
+    exec: for h in $(grep -E -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F':' '(!index($7, "sbin/nologin") && $7 != "/bin/nologin" && $7 != "/bin/false") { print $6 }'); do [ -d "$h" ] && find "$h" -type d -name .ssh -perm /g=rwx,o=rwx 2>/dev/null; done | wc -l
     exit-status: 0
     timeout: {{ .Vars.timeout_ms }}
     stdout:

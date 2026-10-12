@@ -5,7 +5,7 @@
 file:
   ssh_banner:
     title: 5.1.6 | Ensure sshd Banner is configured | sshd_default
-    path: /etc/ssh/sshd_config
+    path: {{ .Vars.deb13cis_sshd_config_file }}
     exists: true
     contents:
     - '/^\s*Banner \/etc\/issue\.net/'
