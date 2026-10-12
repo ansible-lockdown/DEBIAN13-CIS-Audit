@@ -2,13 +2,13 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_1_2_1_14 }}
-file:
+command:
   apt_allow_downgrade_to_insecure_repositories:
     title: 1.2.1.14 | Ensure AllowDowngradeToInsecureRepositories is configured
-    path: /etc/apt/apt.conf.d/99-no-insecure-repositories
-    exists: true
-    contents:
-    - '/^Acquire\:\:AllowDowngradeToInsecureRepositories\s+"0";/'
+    exec: apt-config dump Acquire::AllowDowngradeToInsecureRepositories
+    exit-status: 0
+    stdout:
+    - '/^Acquire::AllowDowngradeToInsecureRepositories "0";$/'
     meta:
       server: 1
       workstation: 1

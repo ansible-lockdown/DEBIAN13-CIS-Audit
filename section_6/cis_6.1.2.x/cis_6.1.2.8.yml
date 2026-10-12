@@ -5,7 +5,6 @@
 package:
   rsyslog-gnutls:
     title: 6.1.2.8 | Ensure rsyslog-gnutls is installed
-    name: rsyslog-gnutls
     installed: true
     meta:
       server: 2

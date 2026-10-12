@@ -20,7 +20,7 @@ command:
   lsmod_dccp:
     title: 3.2.3 | Ensure dccp kernel module is not available | running dccp
     exit-status: 1
-    exec: lsmod | grep -i dccp
+    exec: lsmod | awk '$1 == "dccp"' | grep .
     stdout:
     - '!/^.*/'
     meta:

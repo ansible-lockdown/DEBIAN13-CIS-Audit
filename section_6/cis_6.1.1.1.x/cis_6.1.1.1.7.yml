@@ -1,7 +1,6 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-  {{ if eq .Vars.deb13cis_syslog "journald"}}
     {{ if .Vars.deb13cis_rule_6_1_1_1_7 }}
 command:
   compress_journald_conf:
@@ -22,5 +21,4 @@ command:
       NIST800-53R5:
       - AU-4
     {{ end }}
-  {{ end }}
 {{ end }}

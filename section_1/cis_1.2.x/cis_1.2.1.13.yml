@@ -2,13 +2,13 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_1_2_1_13 }}
-file:
+command:
   apt_allow_weak_repositories:
     title: 1.2.1.13 | Ensure AllowWeakRepositories is configured
-    path: /etc/apt/apt.conf.d/99-no-insecure-repositories
-    exists: true
-    contents:
-    - '/^Acquire\:\:AllowWeakRepositories\s+"0";/'
+    exec: apt-config dump Acquire::AllowWeakRepositories
+    exit-status: 0
+    stdout:
+    - '/^Acquire::AllowWeakRepositories "0";$/'
     meta:
       server: 1
       workstation: 1

@@ -23,7 +23,7 @@ command:
   lsmod_RDS:
     title: 3.2.4 | Ensure rds kernel module is not available | running rds
     exit-status: 1
-    exec: lsmod | grep -i rds
+    exec: lsmod | awk '$1 == "rds"' | grep .
     stdout:
     - '!/^.*/'
     meta:

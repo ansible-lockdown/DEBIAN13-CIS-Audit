@@ -8,8 +8,8 @@ file:
     path: /etc/ssh/sshd_config
     exists: true
     contents:
-    - 'Banner /etc/issue.net'
-    - '!/^Banner none/'
+    - '/^\s*Banner \/etc\/issue\.net/'
+    - '!/^\s*Banner\s+"?none\b/'
     meta:
       server: 1
       workstation: 1
@@ -24,7 +24,7 @@ file:
 command:
   ssh_configd_banner:
     title: 5.1.6 | Ensure sshd Banner is configured | conf.d banner settings
-    exec: grep -Eis '^\s*Banner\s+"?none\b'/etc/ssh/sshd_config.d/*.conf
+    exec: grep -Eis '^\s*Banner\s+"?none\b' /etc/ssh/sshd_config.d/*.conf
     exit-status:
       or:
       - 0

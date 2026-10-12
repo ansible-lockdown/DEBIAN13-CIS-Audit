@@ -20,7 +20,7 @@ command:
   lsmod_can:
     title: 3.2.2 | Ensure can kernel module is not available | running can
     exit-status: 1
-    exec: lsmod | grep -i can
+    exec: lsmod | awk '$1 == "can"' | grep .
     stdout:
     - '!/^.*/'
     meta:

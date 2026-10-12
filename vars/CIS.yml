@@ -661,7 +661,6 @@ deb13cis_system_is_log_server: false
 deb13cis_remote_log_server: false
 
 # Log server settings
-deb13cis_remote_log_server: false
 deb13cis_remote_log_host: logagg.example.com
 deb13cis_remote_log_port: 514
 deb13cis_remote_log_protocol: tcp

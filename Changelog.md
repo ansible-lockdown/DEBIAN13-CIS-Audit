@@ -23,6 +23,70 @@
   - 1.6.11 and 1.6.12: command checks, pass cleanly when the unit is absent
   - 7.2.11: asserts on a counted result rather than empty output
   - README updates and updated contributing and contributors
+  - October 2026 QA fixes carried forward, mapped by control title
+  - audit binary switched from goss v0.6.0 to syver v0.13.0, run_audit.sh minimum raised to 0.13.0
+  - 5.1.6: conf.d Banner none check could never fail
+  - 1.1.1.11: manual check, was running modprobe with no module
+  - 1.6.4: pam_motd checked in sshd, login, su and gdm-password
+  - 1.2.1.12 to 1.2.1.15: read effective apt-config values
+  - 3.2.1 to 3.2.6: lsmod matches the exact module name
+  - 3.3.2.3 to 3.3.2.8 gated on deb13cis_ipv6_required
+  - 3.3.1.19, 6.2.2.4 and 5.2.6 patterns anchored
+  - 1.2.1.1 Signed-By match case-insensitive
+  - level gates corrected: 1.5.2, 2.1.21, 2.2.5, 3.2.7, 1.2.1.4, 1.2.1.5, 1.2.1.7, 1.2.1.8
+  - level meta corrected for 1.1.1.11, 1.2.1.4, 1.2.1.5, 1.2.1.7, 1.2.1.8, 1.6.12, 2.2.3, 2.2.4, 2.2.6, 5.3.3.1.3, 6.1.2.9, 6.1.2.10, 6.2.1.3
+  - README requirements and links describe syver
+  - 1.7.2: checks the user dconf profile and the disable-user-list lock
+
+## October 2026 - QA fixes
+
+- 5.4.1.5 root checked only when deb13cis_inactivelock_include_root is true
+- 6.1.1.1.x journald tests run whatever the syslog choice, 6.1.1.1.4 journald only
+- goss files start with --- on line 1
+- 7.1.11 to 7.1.13 read the mount point from $6
+- 7.1.13 SUID/SGID review checks package ownership and integrity
+- 1.3.1.3 rewritten for dash, complain and unconfined counts
+- 5.3.3.4.1 and 5.3.3.4.2 list the common-* files explicitly
+- 7.2.9 uid range read with awk
+- 2.1.2 package avahi-daemon, 2.1.16 package telnetd
+- 2.1.22 postfix check only when postfix is installed
+- 6.2.3.19 asserts the chown syscalls
+- 6.2.4.6 and 6.2.4.7 use find ! -user / ! -group root
+- 5.4.1.2 lists only passwords with min days below 1
+- 5.4.1.5 uses the benchmark inactive check
+- 1.2.1.6 and 1.2.1.9 use find with owner and mode
+- 5.4.2.1 to 5.4.2.3 use awk instead of character classes
+- 7.2.5 to 7.2.8 sort before uniq -d
+- standalone.yml globs aligned with goss.yml
+- config file assertions anchored so comments cannot satisfy them
+- 6.1.2.11 CA file variable read from .Vars, rsyslog audits no longer abort
+- 6.1.2.9 invalid exec attribute removed from the package test
+- 6.1.2.3 reads the effective journald ForwardToSyslog value
+- 6.1.2.6 gated on deb13cis_remote_log_server, 6.1.2.7 split client and server
+- 6.3.1 gated on deb13cis_config_aide
+- level gates corrected for 3.3.2.1, 3.3.2.2, 5.4.1.2 and 6.3.3
+- deb13cis_exclude_unowned_search_path spacing fixed
+- Company name updated to MindPoint Group - A Quantum Sky Company
+- run_audit.sh uses syver v0.13.0 by default
+- README describes syver
+
+## Based on CIS v1.0.0 - Branch sept26_updates
+
+- 1.7.2 defined the goss key gdm_profile_banner twice in one command: map, so the
+  banner-message-enable assertion was lost and goss aborts on a duplicate key
+- 1.7.10 and 1.7.11 both keyed on /etc/gdm3/custom.conf; level_1 and level_2 both default
+  true, so goss merged them and 1.7.10 was silently dropped. Both now use named keys
+- 1.6.1, 1.6.2 and 1.6.3 asserted '!/(?i)linux' with no closing /, which goss reads as a
+  literal string, so the OS-disclosure check never fired. Host-proven: all three banner
+  files contained "Debian GNU/Linux" while the audit reported clean
+- 1.1.1.6 checked the non-existent overlayfs module; the FATAL "module not found" message
+  itself contained the string being grepped, so it always passed. Now overlay
+
+- 6.2.3.10 was a placeholder that echoed "Manual" then asserted the output must not contain
+  "Manual", so it could only ever fail and checked nothing. Replaced with conf and running
+  checks on the -k privileged rules, in the POSIX echo-on-failure style used by 6.2.3.9
+
+- updated from Audit to AUDIT
 
 ## Based on CIS v1.0.0 - Branch align_1.0.0
 

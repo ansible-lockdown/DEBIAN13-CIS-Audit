@@ -1,6 +1,6 @@
 ---
 
-{{ if .Vars.deb13cis_level_2 }}
+{{ if .Vars.deb13cis_level_1 }}
     {{ if .Vars.deb13cis_rule_1_2_1_8 }}
 file:
   apt_sources_list.d_perms:
@@ -16,8 +16,8 @@ file:
       - "0750"
       - "0700"
     meta:
-      server: 2
-      workstation: 2
+      server: 1
+      workstation: 1
       CIS_ID:
       - 1.2.1.8
       NIST800-53R5: NA

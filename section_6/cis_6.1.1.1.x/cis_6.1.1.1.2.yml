@@ -62,4 +62,5 @@ command:
       - AU-7
       - AU-12
     {{ end }}
+  {{ end }}
 {{ end }}

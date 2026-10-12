@@ -14,9 +14,9 @@ command:
       - 0
       - 1
     stdout:
-    - '.*:/global(DefaultNetstreamDriverCAFile="{{ .Vars.deb13cis_rsyslog_stream_cafile }}")'
+    - '/global\(DefaultNetstreamDriverCAFile="{{ .Vars.deb13cis_rsyslog_stream_cafile }}"\)/'
     meta:
-      server: 1
+      server: 2
       workstation: 2
       CIS_ID:
       - 6.1.2.10

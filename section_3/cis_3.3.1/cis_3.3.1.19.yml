@@ -24,8 +24,8 @@ command:
       - 1
       - 2
     stdout:
-    - '/net\.ipv4\.conf\.all\.route_localnet\s*=\s*0/'
-    - '!/net\.ipv4\.conf\.all\.route_localnet\s*=\s*1/'
+    - '/:\s*net\.ipv4\.conf\.all\.route_localnet\s*=\s*0/'
+    - '!/:\s*net\.ipv4\.conf\.all\.route_localnet\s*=\s*1/'
     meta:
       server: 1
       workstation: 1

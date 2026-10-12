@@ -13,7 +13,7 @@ command:
     exec: |
       find /etc/apt/sources.list /etc/apt/sources.list.d/ -maxdepth 1 -type f \
       \( -name 'sources.list' -o -name '*.list' -o -name '*.sources' \) \
-      -exec grep -LEs -- '^([^#]*)?[[:space:]]*Signed-By' {} +
+      -exec grep -LEis -- '^([^#]*)?[[:space:]]*Signed-By' {} +
     stdout:
     - '!/./'
     meta:

@@ -2,13 +2,13 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_1_2_1_12 }}
-file:
+command:
   apt_allow_insecure_repositories:
     title: 1.2.1.12 | Ensure AllowInsecureRepositories is configured
-    path: /etc/apt/apt.conf.d/99-no-insecure-repositories
-    exists: true
-    contents:
-    - '/^Acquire\:\:AllowInsecureRepositories\s+"0";/'
+    exec: apt-config dump Acquire::AllowInsecureRepositories
+    exit-status: 0
+    stdout:
+    - '/^Acquire::AllowInsecureRepositories "0";$/'
     meta:
       server: 1
       workstation: 1

@@ -20,7 +20,7 @@ command:
   lsmod_atm:
     title: 3.2.1 | Ensure atm kernel module is not available | running atm
     exit-status: 1
-    exec: lsmod | grep -i atm
+    exec: lsmod | awk '$1 == "atm"' | grep .
     stdout:
     - '!/^.*/'
     meta:

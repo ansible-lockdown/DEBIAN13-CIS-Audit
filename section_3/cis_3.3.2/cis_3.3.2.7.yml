@@ -2,6 +2,7 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_3_3_2_7 }}
+    {{ if .Vars.deb13cis_ipv6_required }}
 kernel-param:
   net.ipv6.conf.all.accept_ra:
     title: 3.3.2.7 | Ensure net.ipv6.conf.all.accept_ra is configured
@@ -34,5 +35,6 @@ command:
       NIST800-53R5:
       - CM-6
       CCI: CCI-000366
+    {{ end }}
   {{ end }}
 {{ end }}

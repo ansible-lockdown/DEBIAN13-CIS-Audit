@@ -5,13 +5,13 @@
 command:
   unused_filesystems:
     title: 1.1.1.11 | Ensure unused filesystems kernel modules are not available | Manual Check will be needed to validate if alerts
+    exec: echo "Manual - review loaded filesystem kernel modules against site policy"
     exit-status: 0
-    exec: modprobe -n -v
     stdout:
-    - '!/(afs|ceph|cifs|exfat|ext|fat|fscache|fuse|gfs2|nfs_common|nfsd|smbfs_common)/'
+    - '!/^Manual/'
     meta:
       server: 1
-      workstation: 2
+      workstation: 1
       CIS_ID: 1.1.1.11
       NIST800-53R5: CM-7
   {{ end }}

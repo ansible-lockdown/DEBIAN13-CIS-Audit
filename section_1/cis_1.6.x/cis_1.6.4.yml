@@ -3,14 +3,13 @@
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_1_6_4 }}
     {{ if .Vars.deb13cis_disable_dynamic_motd }}
-file:
+command:
   pam_motd_configured:
     title: 1.6.4 | Ensure pam_motd is configured
-    path: /etc/pam.d/sshd
-    exists: true
-    contents:
-    - '!/^session\s+optional\s+pam_motd\.so\s+motd=\/run\/motd\.dynamic/'
-    - '!/^session\s+optional\s+pam_motd\.so\s+noupdate/'
+    exec: grep -Hs -E '^\s*session\s+(required|optional)\s+pam_motd\.so\b.*\bmotd=/run/motd\.dynamic' /etc/pam.d/sshd /etc/pam.d/login /etc/pam.d/su /etc/pam.d/gdm-password; true
+    exit-status: 0
+    stdout:
+    - '!/pam_motd/'
     meta:
       server: 1
       workstation: 1

@@ -1,6 +1,6 @@
 ---
 
-{{ if .Vars.deb13cis_level_2 }}
+{{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_3_2_7 }}
 command:
   unneeded_network_protocol_modules:
@@ -11,8 +11,8 @@ command:
     stdout:
     - '!/^Manual/'
     meta:
-      server: 2
-      workstation: 2
+      server: 1
+      workstation: 1
       CIS_ID:
       - 3.2.7
       NIST800-53R5:

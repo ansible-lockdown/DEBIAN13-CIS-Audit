@@ -7,7 +7,7 @@
 package:
   telnet_pkg:
     title: 2.1.16 | Ensure telnet server services are not in use | pkg removed
-    name: telnetd-hpa
+    name: telnetd
     installed: false
     meta:
       server: 1

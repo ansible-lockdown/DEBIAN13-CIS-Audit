@@ -2,13 +2,13 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_1_2_1_15 }}
-file:
+command:
   apt_check_date:
     title: 1.2.1.15 | Ensure Acquire::Check-Date is configured
-    path: /etc/apt/apt.conf.d/99-no-insecure-repositories
-    exists: true
-    contents:
-    - '/^Acquire\:\:Check\-Date\s+"true";/'
+    exec: apt-config dump Acquire::Check-Date
+    exit-status: 0
+    stdout:
+    - '/^Acquire::Check\-Date "true";$/'
     meta:
       server: 1
       workstation: 1
