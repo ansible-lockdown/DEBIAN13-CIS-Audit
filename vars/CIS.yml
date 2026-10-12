@@ -667,7 +667,7 @@ deb13cis_remote_log_protocol: tcp
 deb13cis_remote_log_retrycount: 100
 deb13cis_remote_log_queuesize: 1000
 
-deb13cis_rsyslog_stream_cafile: /change/me/to/correct/path
+deb13cis_rsyslog_stream_cafile: "/path/to/contrib/gnutls/ca.pem"
 #  6.3
 ## If using auditd settings
 deb13cis_auditd: true

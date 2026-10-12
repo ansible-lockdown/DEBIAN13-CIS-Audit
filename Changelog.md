@@ -40,6 +40,9 @@
   - 5.1.x: sshd_config path from deb13cis_sshd_config_file
   - 6.2.3.26: no longer gated on deb13cis_apparmor_disable
   - 7.2.11: checks interactive user homes, not only /home
+  - README syver docs links moved to syver.readthedocs.io
+  - vars/CIS.yml rsyslog_stream_cafile default matches the role
+  - 5.1.5: sshd_config path from deb13cis_sshd_config_file
 
 ## October 2026 - QA fixes
 

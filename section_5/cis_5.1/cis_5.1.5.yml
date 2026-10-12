@@ -6,7 +6,7 @@
 command:
   sshd_access_limited:
     title: 5.1.5 | Ensure sshd access is configured | config
-    exec: grep -RhiE '^[[:space:]]*(Allow|Deny)(Users|Groups)' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/
+    exec: grep -RhiE '^[[:space:]]*(Allow|Deny)(Users|Groups)' {{ .Vars.deb13cis_sshd_config_file }} /etc/ssh/sshd_config.d/
     exit-status:
       or:
       - 0

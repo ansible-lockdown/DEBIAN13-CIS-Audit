@@ -78,9 +78,9 @@ README Links
 [Centre For Internet Security]: https://www.cisecurity.org
 [Read the Docs - Audit]: https://ansible-lockdown.readthedocs.io/en/latest/audit/getting-started-audit.html
 
-[Syver documentation]: https://github.com/krameff/syver/blob/main/docs/index.md
+[Syver documentation]: https://syver.readthedocs.io/en/latest/
 
-[goss vs Syver]: https://github.com/krameff/syver/blob/main/docs/goss-vs-syver.md
+[goss vs Syver]: https://syver.readthedocs.io/en/latest/goss-vs-syver/
 
 [Syver]: https://github.com/krameff/syver
 
