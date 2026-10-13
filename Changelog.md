@@ -1,5 +1,6 @@
 # Debian 13 CIS
 
+## CIS Benchmark v1.0.0
 ## October 2026 - QA fixes
 
 - 5.4.1.5 root checked only when deb13cis_inactivelock_include_root is true
