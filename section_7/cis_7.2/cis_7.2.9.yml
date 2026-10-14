@@ -19,7 +19,7 @@ command:
       NIST800-53R5: CM-6
   home_dirs_owned:
     title: 7.2.9 | Ensure local interactive user home directories are configured | owned
-    exec: getent passwd {1000..60000} |  awk -F':' '{ print $1  " "  $6 }' | while read user dir; do if [ $user != 'ftpd' ]; then owner=$(stat -L -c "%U" "$dir"); if [ "$owner" != "$user" ]; then echo "home dir for $user owned by $owner"; fi; fi; done
+    exec: awk -F':' '$3 >= 1000 && $3 <= 60000 { print $1 " " $6 }' /etc/passwd | while read -r user dir; do if [ "$user" != 'ftpd' ]; then owner=$(stat -L -c "%U" "$dir"); if [ "$owner" != "$user" ]; then echo "home dir for $user owned by $owner"; fi; fi; done
     exit-status: 0
     timeout: {{ .Vars.timeout_ms }}
     stdout:

@@ -1,7 +1,6 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-  {{ if eq .Vars.deb13cis_syslog "journald"}}
     {{ if .Vars.deb13cis_rule_6_1_1_1_1 }}
 service:
   systemd-journald:
@@ -17,5 +16,4 @@ service:
       - SC-24
       CCI: CCI-001665
     {{ end }}
-  {{ end }}
 {{ end }}
