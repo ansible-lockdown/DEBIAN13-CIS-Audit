@@ -5,11 +5,15 @@
 command:
   pam_unix_nullok_pam_configs:
     title: 5.3.3.4.1 | Ensure pam_unix does not include nullok
-    exec: grep -PH -- '^\h*^\h*[^#\n\r]+\h+pam_unix\.so\b' /etc/pam.d/common-{password,auth,account,session,session-noninteractive} /usr/share/pam-configs/* | grep -P -- '\bnullok\b'
-    exit-status:
-      or:
-      - 0
-      - 1
+    exec: |
+      for l_file in /etc/pam.d/common-password /etc/pam.d/common-auth /etc/pam.d/common-account /etc/pam.d/common-session /etc/pam.d/common-session-noninteractive; do
+        [ -f "$l_file" ] || echo "MISSING: $l_file"
+      done
+      grep -PHs -- '^\h*[^#\n\r]+\h+pam_unix\.so\h+([^#\n\r]+\h+)?nullok\b' /etc/pam.d/common-password /etc/pam.d/common-auth /etc/pam.d/common-account /etc/pam.d/common-session /etc/pam.d/common-session-noninteractive /usr/share/pam-configs/*
+      l_rc=$?
+      [ "$l_rc" -le 1 ] || echo "GREP_ERROR: rc=$l_rc"
+      exit 0
+    exit-status: 0
     stdout:
     - '!/.*/'
     meta:

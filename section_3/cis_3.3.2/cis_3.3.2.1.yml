@@ -1,5 +1,6 @@
 ---
-{{ if .Vars.deb13cis_level_2 }}
+
+{{ if .Vars.deb13cis_level_1 }}
   {{ if not .Vars.deb13cis_is_router }}
     {{ if .Vars.deb13cis_rule_3_3_2_1 }}
       {{ if .Vars.deb13cis_ipv6_required }}
@@ -9,7 +10,7 @@ kernel-param:
     value: '0'
     name: net.ipv6.conf.all.forwarding
     meta:
-      server: 2
+      server: 1
       workstation: 1
       CIS_ID:
       - 3.3.2.1
@@ -28,7 +29,7 @@ command:
     - '/.*:net.ipv6.conf.all.forwarding\s*=\s*0/'
     - '!/.*:net.ipv6.conf.all.forwarding\s*=\s*1/'
     meta:
-      server: 2
+      server: 1
       workstation: 1
       CIS_ID:
       - 3.3.2.1

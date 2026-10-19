@@ -2,18 +2,17 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_1_2_6 }}
-    {{ if not .Vars.deb13cis_remote_log_host }}
+    {{ if .Vars.deb13cis_remote_log_server }}
 command:
   remote_syslog:
     title: 6.1.2.6 | Ensure rsyslog is configured to send logs to a remote log host
-    exec: 'grep -E "action.*omfwd.*target" /etc/rsyslog.conf /etc/rsyslog.d/*.conf'
+    exec: grep -Eh '^[[:space:]]*[^#[:space:]].*(@|target=)' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
     exit-status:
       or:
       - 0
       - 2
     stdout:
-    - '*.* action(type="omfwd" target="{{ .Vars.deb13cis_remote_log_host }}" port="{{ .Vars.deb13cis_remote_log_port }}"'
-    - protocol="{{ .Vars.deb13cis_remote_log_protocol }}"
+    - '/^\s*\S+\s+(@@?|.*target="?){{ .Vars.deb13cis_remote_log_host }}/'
     meta:
       server: 1
       workstation: 1

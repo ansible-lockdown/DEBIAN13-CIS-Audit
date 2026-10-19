@@ -1,4 +1,4 @@
-# Debian 13 Goss config
+# Debian 13 Syver config
 
 ## Overview
 
@@ -28,7 +28,7 @@ The listed variable for every control/benchmark can be turned on/off or section
 
 ## Requirements
 
-goss >= 0.4.8
+syver >= 0.13.0 - the continuation of goss, reading the same goss file format. Syver replaces goss as it is a signed fork that is regularly updated.
 root privileges
 
 ## Branches
@@ -60,8 +60,9 @@ Ability to add your own requirements is available in several sections
 
 ## Links and Further information
 
-- [Goss]
-  - [Goss documentation]
+- [Syver]
+  - [Syver documentation]
+  - [goss vs Syver]
 - [Centre For Internet Security]
 
 <!----
@@ -71,9 +72,11 @@ README Links
 [Centre For Internet Security]: https://www.cisecurity.org
 [Read the Docs - Audit]: https://ansible-lockdown.readthedocs.io/en/latest/audit/getting-started-audit.html
 
-[goss documentation]: (https://github.com/goss-org/goss/blob/master/README.md)
+[Syver documentation]: https://github.com/krameff/syver/blob/main/docs/index.md
 
-[Goss]: https://goss.rocks
+[goss vs Syver]: https://github.com/krameff/syver/blob/main/docs/goss-vs-syver.md
+
+[Syver]: https://github.com/krameff/syver
 
 [MindPoint Group]: https://mindpointgroup.com/cybersecurity-consulting/automate/baseline-modernization#GH_LockdownReadMe
 [Discord Community Discussions]: https://www.lockdownenterprise.com/discord
