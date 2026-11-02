@@ -1,7 +1,6 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-  {{ if eq .Vars.deb13cis_syslog "journald"}}
     {{ if .Vars.deb13cis_rule_6_1_1_1_2 }}
 command:
   /etc/tmpfiles.d/systemd.conf:
@@ -22,5 +21,4 @@ command:
       - MP-2
       - SI-5
     {{ end }}
-  {{ end }}
 {{ end }}

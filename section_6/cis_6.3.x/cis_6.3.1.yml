@@ -2,6 +2,7 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_3_1 }}
+    {{ if .Vars.deb13cis_config_aide }}
 package:
 {{- range mkSlice "aide" "aide-common" }}
   {{ . }}:
@@ -15,6 +16,7 @@ package:
       - 6.3.1
       NIST800-53R5:
       - AU-2
+    {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}

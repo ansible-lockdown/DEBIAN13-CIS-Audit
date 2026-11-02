@@ -625,10 +625,14 @@ deb13cis_passwd_complex_option: minclass
 deb13cis_pass_max_days: "365"
 deb13cis_pass_min_days: "1"
 deb13cis_pass_warn_age: "7"
+deb13cis_inactivelock_include_root: false
 
 # Section 6
 
 # Control 6.1.x
+
+# Control 6.3.1 - install and configure AIDE
+deb13cis_config_aide: true
 
 # aide setup via - cron, timer
 deb13cis_aide_scan: cron
@@ -643,6 +647,9 @@ deb13cis_syslog: journald
 ## Set if host is a logserver
 deb13cis_system_is_log_server: false
 
+# Control 6.1.2.6 - role configures forwarding to a remote log host
+deb13cis_remote_log_server: false
+
 # Log server settings
 deb13cis_remote_log_host: logagg.example.com
 deb13cis_remote_log_port: 514
@@ -656,4 +663,4 @@ deb13cis_rsyslog_stream_cafile: /change/me/to/correct/path
 deb13cis_auditd: true
 
 #  Control 7.1.12
-deb13cis_exclude_unowned_search_path: \(! -path "/run/user/*" -a ! -path "/proc/*" -a ! -path "*/containerd/*" -a ! -path "*/kubelet/pods/*" -a ! -path "*/kubelet/plugins/*" -a ! -path "/sys/fs/cgroup/memory/*" -a ! -path "/var/*/private/*" \)
+deb13cis_exclude_unowned_search_path: \( ! -path "/run/user/*" -a ! -path "/proc/*" -a ! -path "*/containerd/*" -a ! -path "*/kubelet/pods/*" -a ! -path "*/kubelet/plugins/*" -a ! -path "/sys/fs/cgroup/memory/*" -a ! -path "/var/*/private/*" \)

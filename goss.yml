@@ -41,8 +41,8 @@ gossfile:
 # Section 6
   {{ if .Vars.deb13cis_section6 }}
   # journald
-  {{ if eq .Vars.deb13cis_syslog "journald" }}
   section_6/cis_6.1.1.1.x/*.yml: {}
+  {{ if eq .Vars.deb13cis_syslog "journald" }}
   section_6/cis_6.1.1.2.x/*.yml: {}
   {{ end }}
   {{ if eq .Vars.deb13cis_syslog "rsyslog" }}

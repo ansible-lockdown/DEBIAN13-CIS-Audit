@@ -1,7 +1,6 @@
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
-  {{ if eq .Vars.deb13cis_syslog "journald"}}
    {{ if .Vars.deb13cis_rule_6_1_1_1_3 }}
 command:
   log_rotate_journald_conf:
@@ -24,5 +23,4 @@ command:
       - AU-7
       - AU-12
     {{ end }}
-  {{ end }}
 {{ end }}

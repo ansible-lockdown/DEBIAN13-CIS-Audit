@@ -1,6 +1,6 @@
 ---
 
-{{ if .Vars.deb13cis_level_1 }}
+{{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_3_3 }}
 file:
   audit_bins_crypto_aide:
@@ -8,14 +8,14 @@ file:
     path: /etc/aide/aide.conf
     exists: true
     contents:
-      - '/usr/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512'
-      - '/usr/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512'
-      - '/usr/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512'
-      - '/usr/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512'
-      - '/usr/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512'
+      - '/^\s*\/usr\/sbin\/auditctl\s+p\+i\+n\+u\+g\+s\+b\+acl\+xattrs\+sha512/'
+      - '/^\s*\/usr\/sbin\/auditd\s+p\+i\+n\+u\+g\+s\+b\+acl\+xattrs\+sha512/'
+      - '/^\s*\/usr\/sbin\/ausearch\s+p\+i\+n\+u\+g\+s\+b\+acl\+xattrs\+sha512/'
+      - '/^\s*\/usr\/sbin\/aureport\s+p\+i\+n\+u\+g\+s\+b\+acl\+xattrs\+sha512/'
+      - '/^\s*\/usr\/sbin\/augenrules\s+p\+i\+n\+u\+g\+s\+b\+acl\+xattrs\+sha512/'
     meta:
-      server: 1
-      workstation: 1
+      server: 2
+      workstation: 2
       CIS_ID:
       - 6.3.3
       NIST800-53R5: NA

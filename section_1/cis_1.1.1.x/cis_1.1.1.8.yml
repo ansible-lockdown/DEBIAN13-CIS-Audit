@@ -19,7 +19,7 @@ command:
     exit-status: 0
     exec: grep udf /etc/modprobe.d/*.conf
     stdout:
-      - '/blacklist udf/'
+      - '/^([^:]+:)?\s*blacklist\s+udf\b/'
     meta:
       server: 2
       workstation: 2

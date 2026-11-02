@@ -1,9 +1,8 @@
-
 ---
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_6_1_2_7 }}
-    {{ if not .Vars.deb13cis_remote_log_host }}
+    {{ if not .Vars.deb13cis_system_is_log_server }}
 command:
   local_syslog_module:
     title: 6.1.2.7 | Ensure rsyslog is not configured to receive logs from a remote client | module
@@ -35,6 +34,26 @@ command:
       - 2
     stdout:
     - '!/.*/'
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 6.1.2.7
+      NIST800-53R5:
+      - AU-2
+      - AU-7
+      - AU-12
+      - CM-6
+    {{ end }}
+    {{ if .Vars.deb13cis_system_is_log_server }}
+file:
+  log_server_syslog_input:
+    title: 6.1.2.7 | Ensure rsyslog is not configured to receive logs from a remote client | log server
+    path: /etc/rsyslog.conf
+    exists: true
+    contents:
+    - '/^\$ModLoad\s+imtcp/'
+    - '/^\$InputTCPServerRun\s+[0-9]+/'
     meta:
       server: 1
       workstation: 1

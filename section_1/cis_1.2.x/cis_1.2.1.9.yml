@@ -5,13 +5,13 @@
 command:
   apt_auth_conf:
     title: 1.2.1.9 | Ensure access to files in /etc/apt/sources.list.d are configured
-    exec: "stat -Lc 'Access: (%a/%A) Uid: ( %u/ %U) Gid: ( %g/ %G)' /etc/apt/sources.list.d/* 2>/dev/null"
+    exec: "find -L /etc/apt/sources.list.d/ -type f \\( ! -user root -o ! -group root -o -perm /0133 \\) 2>/dev/null"
     exit-status:
       or:
       - 0
       - 1
     stdout:
-    - '!/.*/'
+    - '!/./'
     meta:
       server: 1
       workstation: 1

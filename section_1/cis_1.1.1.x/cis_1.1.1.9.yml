@@ -19,7 +19,7 @@ command:
     exit-status: 0
     exec: grep firewire-core /etc/modprobe.d/*.conf
     stdout:
-      - '/blacklist firewire-core/'
+      - '/^([^:]+:)?\s*blacklist\s+firewire-core\b/'
     meta:
       server: 1
       workstation: 2

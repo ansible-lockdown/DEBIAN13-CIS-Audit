@@ -6,10 +6,24 @@
 command:
   apparmor_enf_only:
     title: 1.3.1.3 | Ensure all AppArmor Profiles are enforcing
-    exec: if [ `apparmor_status | grep 'profiles are in complain mode.' | awk '{print $1}'` == 0 ]; then echo "Not Enforcing" ;fi
+    exec: |
+      apparmor_status 2>/dev/null | awk '
+        /profiles are loaded/ {pl=$1}
+        /profiles are in complain mode/ {pc=$1}
+        /processes are in complain mode/ {qc=$1}
+        /processes are unconfined but have a profile defined/ {qu=$1}
+        END {
+          print "profiles_loaded=" pl+0
+          print "profiles_complain=" (pc == "" ? "missing" : pc)
+          print "processes_complain=" (qc == "" ? "missing" : qc)
+          print "processes_unconfined=" (qu == "" ? "missing" : qu)
+        }'
     exit-status: 0
     stdout:
-    - '!/Not Enforcing/'
+    - '/^profiles_loaded=[1-9]/'
+    - '/^profiles_complain=0$/'
+    - '/^processes_complain=0$/'
+    - '/^processes_unconfined=0$/'
     meta:
       server: 2
       workstation: 2

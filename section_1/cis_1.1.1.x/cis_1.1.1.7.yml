@@ -19,7 +19,7 @@ command:
     exit-status: 0
     exec: grep squashfs /etc/modprobe.d/*.conf
     stdout:
-      - '/blacklist squashfs/'
+      - '/^([^:]+:)?\s*blacklist\s+squashfs\b/'
     meta:
       server: 2
       workstation: 2

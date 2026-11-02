@@ -8,7 +8,7 @@ file:
     path: /etc/ssh/sshd_config
     exists: true
     contents:
-    - 'GSSAPIAuthentication no'
+    - '/^\s*GSSAPIAuthentication no/'
     - '!/^GSSAPIAuthentication yes/'
     meta:
       server: 2

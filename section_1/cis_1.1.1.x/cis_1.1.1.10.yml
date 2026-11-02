@@ -19,7 +19,7 @@ command:
     exit-status: 0
     exec: grep usb-storage /etc/modprobe.d/*.conf
     stdout:
-      - '/blacklist usb-storage/'
+      - '/^([^:]+:)?\s*blacklist\s+usb-storage\b/'
     meta:
       server: 1
       workstation: 2
