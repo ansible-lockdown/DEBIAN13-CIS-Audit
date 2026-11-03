@@ -2,13 +2,18 @@
 
 {{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_2_4_4 }}
-command:
+{{- $auditconf := glob "/etc/audit/auditd.conf" }}
+{{- $logfile := "/var/log/audit/audit.log" }}
+{{- if $auditconf }}
+{{- with readFile "/etc/audit/auditd.conf" | findStringSubmatch `(?m)^\s*log_file\s*=\s*(?P<path>\S+)` | get "path" }}{{ $logfile = . }}{{ end }}
+{{- end }}
+{{- $logdir := findStringSubmatch `^(?P<dir>.*)/[^/]*$` $logfile | get "dir" }}
+file:
+{{- if not $auditconf }}
   audit_logfile_dir_perms:
-    title: 6.2.4.4 | Ensure the audit log file directory mode is configured
-    exec: for dir in `dirname \`grep ^log_file /etc/audit/auditd.conf | awk '{ print $NF }'\``; do stat -Lc " %n_%a" $dir; done
-    exit-status: 0
-    stdout:
-    - '/.*_7(0|5)0$/'
+    title: 6.2.4.4 | Ensure the audit log file directory mode is configured | auditd.conf
+    path: /etc/audit/auditd.conf
+    exists: true
     meta:
       server: 2
       workstation: 2
@@ -16,5 +21,21 @@ command:
       - 6.2.4.4
       NIST800-53R5:
       - AU-3
+{{- else }}
+  audit_logfile_dir_perms:
+    title: 6.2.4.4 | Ensure the audit log file directory mode is configured
+    path: {{ $logdir }}
+    exists: true
+    filetype: directory
+    mode:
+      match-regexp: '^0[0-7][0145]0$'
+    meta:
+      server: 2
+      workstation: 2
+      CIS_ID:
+      - 6.2.4.4
+      NIST800-53R5:
+      - AU-3
+{{- end }}
   {{ end }}
 {{ end }}

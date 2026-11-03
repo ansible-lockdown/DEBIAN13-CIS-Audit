@@ -21,16 +21,15 @@ file:
       NIST800-53R5:
       - AC-3
       - MP-2
-command:
-  ssh_config.d_perms:
+{{- range glob "/etc/ssh/sshd_config.d/*.conf" }}
+  sshd_config_d_perms_{{ . }}:
     title: 5.1.1 | Ensure access to /etc/ssh/sshd_config is configured | config.d
-    exec: find /etc/ssh/sshd_config.d -perm /137 ! -user root ! -group root
-    exit-status:
-      or:
-      - 0
-      - 1
-    stdout:
-    - '!/.*/'
+    path: {{ . }}
+    exists: true
+    mode:
+      match-regexp: '^0[0-7]00$'
+    owner: root
+    group: root
     meta:
       server: 1
       workstation: 1
@@ -39,5 +38,21 @@ command:
       NIST800-53R5:
       - AC-3
       - MP-2
+{{- else }}
+  sshd_config_d_perms:
+    title: 5.1.1 | Ensure access to /etc/ssh/sshd_config is configured | config.d
+    path: /etc/ssh/sshd_config.d
+    exists: true
+    skip: true
+    skip-reason: no .conf files in /etc/ssh/sshd_config.d
+    meta:
+      server: 1
+      workstation: 1
+      CIS_ID:
+      - 5.1.1
+      NIST800-53R5:
+      - AC-3
+      - MP-2
+{{- end }}
   {{ end }}
 {{ end }}
