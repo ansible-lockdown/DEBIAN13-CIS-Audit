@@ -27,7 +27,7 @@ file:
     path: {{ . }}
     exists: true
     mode:
-      match-regexp: '^0[0-7]00$'
+      match-regexp: '^0[0246]00$'
     owner: root
     group: root
     meta:

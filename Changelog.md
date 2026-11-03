@@ -10,6 +10,8 @@
 - 2.1.x, 2.3.1.1 and 3.1.3: 29 /dev/null symlink checks replaced by service masked
 - 2.1.x: required services reported as skipped with a reason, were dropped from the report
 - 6.3.2: meta moved inside the cron block, timer variant rendered an orphan meta key
+- 5.1.1, 5.1.3 and 5.1.4: one file check per key and config.d file, config.d and public key mode checks could never fail
+- 6.2.4.1 - 6.2.4.10: one file check per log, config and tool file, passed when any one file complied
 - 1.1.2.3.x - 1.1.2.7.x: mount option checks skipped with a reason when the partition does not exist (addresses https://github.com/ansible-lockdown/DEBIAN13-CIS-Audit/issues/9) - Thank you @tob123
 
 ## Based on CIS v1.1.0 - Branch benchmark_1.1.0

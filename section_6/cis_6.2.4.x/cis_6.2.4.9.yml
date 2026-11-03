@@ -15,7 +15,7 @@ file:
       CIS_ID:
       - 6.2.4.9
       NIST800-53R5:
-      - UA-3
+      - AU-3
 {{- end }}
   {{ end }}
 {{ end }}
