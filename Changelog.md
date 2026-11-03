@@ -13,6 +13,7 @@
 - 5.1.1, 5.1.3 and 5.1.4: one file check per key and config.d file, config.d and public key mode checks could never fail
 - 6.2.4.1 - 6.2.4.10: one file check per log, config and tool file, passed when any one file complied
 - 1.1.2.3.x - 1.1.2.7.x: mount option checks skipped with a reason when the partition does not exist (addresses https://github.com/ansible-lockdown/DEBIAN13-CIS-Audit/issues/9) - Thank you @tob123
+- 2.4.1.9: cron.allow group root or crontab accepted
 
 ## Based on CIS v1.1.0 - Branch benchmark_1.1.0
 
