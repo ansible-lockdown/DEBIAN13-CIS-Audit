@@ -31,7 +31,7 @@ command:
       - MP-2
   /etc/ssh/ssh_host_pub_key_perms:
     title: 5.1.3 | Ensure access to SSH public host key files is configured | perms
-    exec: "keysperm=$(sudo find /etc/ssh/ -name *_key.pub -type f -perm /133 ); echo $keyperms"
+    exec: find /etc/ssh/ -name '*_key.pub' -type f -perm /0133
     exit-status: 0
     stdout: ['!/./']
     meta:
