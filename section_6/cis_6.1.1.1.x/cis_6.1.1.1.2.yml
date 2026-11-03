@@ -7,7 +7,7 @@ service:
   systemd-journal-remote.service:
     title: 6.1.1.1.2 | Ensure systemd-journal-remote service is not in use | service
     running: false
-    # enabled: false  # managed by socket so seen as indirect although not enabled - goss issue
+    masked: true
     meta:
       server: 1
       workstation: 1
@@ -20,38 +20,7 @@ service:
   systemd-journal-remote.socket:
     title: 6.1.1.1.2 | Ensure systemd-journal-remote service is not in use | socket
     running: false
-    enabled: false
-    meta:
-      server: 1
-      workstation: 1
-      CIS_ID:
-      - 6.1.1.1.2
-      NIST800-53R5:
-      - AU-2
-      - AU-7
-      - AU-12
-command:
-  journald_service_masked:
-    title: 6.1.1.1.2 | Ensure systemd-journal-remote service is not in use | service masked
-    exec: systemctl is-enabled systemd-journal-remote.socket
-    exit-status: 1
-    stdout:
-    - '/^masked/'
-    meta:
-      server: 1
-      workstation: 1
-      CIS_ID:
-      - 6.1.1.1.2
-      NIST800-53R5:
-      - AU-2
-      - AU-7
-      - AU-12
-  journald_socket_masked:
-    title: 6.1.1.1.2 | Ensure systemd-journal-remote service is not in use | socket masked
-    exec: systemctl is-enabled systemd-journal-remote.socket
-    exit-status: 1
-    stdout:
-    - '/^masked/'
+    masked: true
     meta:
       server: 1
       workstation: 1
