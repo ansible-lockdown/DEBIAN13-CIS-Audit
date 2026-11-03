@@ -18,10 +18,11 @@ command:
       - AU-3
   audit_logfile_group:
     title: 6.2.4.3 | Ensure audit log files group owner is configured
-    exec: for file in `grep ^log_file /etc/audit/auditd.conf | awk '{ print $NF }'`; do stat -Lc " %n_%G" $file; done
+    exec: >-
+      c=/etc/audit/auditd.conf; [ -f "$c" ] || { echo "$c is missing"; exit 0; }; l=$(awk -F= '/^[[:space:]]*log_file[[:space:]]*=/ {print $2}' "$c" | xargs); find "$(dirname "$l")" -type f ! -group root ! -group adm
     exit-status: 0
     stdout:
-    - '/.*_(adm|root)$/'
+    - '!/./'
     meta:
       server: 2
       workstation: 2
