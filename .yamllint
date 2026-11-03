@@ -8,10 +8,10 @@ rules:
     max: 250
     allow-non-breakable-inline-mappings: true
 
-  # Disable braces check - Goss uses Jinja2 templates with {{ }}
+  # Disable braces check - syver uses Go templates with {{ }}
   braces: disable
 
-  # Allow truthy values commonly used in Ansible/Goss
+  # Allow truthy values commonly used in Ansible/syver
   truthy:
     allowed-values: ['true', 'false', 'yes', 'no']
 
@@ -21,5 +21,5 @@ rules:
 # Ignore files with heavy Jinja2 templating that causes false positives
 ignore: |
   section_*/
-  goss.yml
+  syver.yml
   standalone.yml
