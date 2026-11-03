@@ -1,5 +1,17 @@
 # Debian 13 CIS
 
+## CIS Benchmark 1.1.0
+## November 2026 - syver 0.16.0
+
+- run_audit.sh minimum raised to syver 0.16.0
+- goss.yml renamed syver.yml, gossfile key renamed syverfile
+- goss wording in run_audit.sh and .yamllint changed to syver
+- 6.1.1.1.2: service and socket checked with masked, service mask was never checked
+- 2.1.x, 2.3.1.1 and 3.1.3: 29 /dev/null symlink checks replaced by service masked
+- 2.1.x: required services reported as skipped with a reason, were dropped from the report
+- 6.3.2: meta moved inside the cron block, timer variant rendered an orphan meta key
+- 1.1.2.3.x - 1.1.2.7.x: mount option checks skipped with a reason when the partition does not exist (addresses https://github.com/ansible-lockdown/DEBIAN13-CIS-Audit/issues/9) - Thank you @tob123
+
 ## Based on CIS v1.1.0 - Branch benchmark_1.1.0
 
 - benchmark_1.1.0 branch
