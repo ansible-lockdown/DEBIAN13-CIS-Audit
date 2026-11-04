@@ -36,13 +36,11 @@ package:
       - AU-12
   {{ end }}
   {{ if ne .Vars.deb13cis_time_sync_tool "systemd-timesyncd" }}
-file:
+service:
   timesync_masked:
     title: 2.3.1.1 | Ensure a single time synchronization daemon is in use | systemd-timesyncd masked
-    path: /etc/systemd/system/systemd-timesyncd.service
-    filetype: symlink
-    linked-to: /dev/null
-    exists: true
+    name: systemd-timesyncd.service
+    masked: true
     meta:
       server: 1
       workstation: 1

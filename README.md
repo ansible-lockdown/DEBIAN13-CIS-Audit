@@ -28,7 +28,7 @@ The listed variable for every control/benchmark can be turned on/off or section
 
 ## Requirements
 
-syver >= 0.13.0 - the continuation of goss, reading the same goss file format. Syver replaces goss as it is a signed fork that is regularly updated.
+syver >= 0.16.0 - signed and regularly updated
 root privileges
 
 ## Branches

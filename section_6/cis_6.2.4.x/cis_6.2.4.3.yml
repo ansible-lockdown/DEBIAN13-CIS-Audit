@@ -2,6 +2,11 @@
 
 {{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_2_4_3 }}
+{{- $auditconf := glob "/etc/audit/auditd.conf" }}
+{{- $logfile := "/var/log/audit/audit.log" }}
+{{- if $auditconf }}
+{{- with readFile "/etc/audit/auditd.conf" | findStringSubmatch `(?m)^\s*log_file\s*=\s*(?P<path>\S+)` | get "path" }}{{ $logfile = . }}{{ end }}
+{{- end }}
 command:
   audit_logfile_group_setting:
     title: 6.2.4.3 | Ensure audit log files group owner is configured
@@ -16,12 +21,12 @@ command:
       - 6.2.4.3
       NIST800-53R5:
       - AU-3
+file:
+{{- if not $auditconf }}
   audit_logfile_group:
-    title: 6.2.4.3 | Ensure audit log files group owner is configured
-    exec: for file in `grep ^log_file /etc/audit/auditd.conf | awk '{ print $NF }'`; do stat -Lc " %n_%G" $file; done
-    exit-status: 0
-    stdout:
-    - '/.*_(adm|root)$/'
+    title: 6.2.4.3 | Ensure audit log files group owner is configured | auditd.conf
+    path: /etc/audit/auditd.conf
+    exists: true
     meta:
       server: 2
       workstation: 2
@@ -29,5 +34,38 @@ command:
       - 6.2.4.3
       NIST800-53R5:
       - AU-3
+{{- else }}
+{{- range glob (printf "%s*" $logfile) }}
+  audit_logfile_group_{{ . }}:
+    title: 6.2.4.3 | Ensure audit log files group owner is configured
+    path: {{ . }}
+    exists: true
+    group:
+      or:
+      - root
+      - adm
+    meta:
+      server: 2
+      workstation: 2
+      CIS_ID:
+      - 6.2.4.3
+      NIST800-53R5:
+      - AU-3
+{{- else }}
+  audit_logfile_group:
+    title: 6.2.4.3 | Ensure audit log files group owner is configured
+    path: {{ $logfile }}
+    exists: true
+    skip: true
+    skip-reason: no audit log files at {{ $logfile }}
+    meta:
+      server: 2
+      workstation: 2
+      CIS_ID:
+      - 6.2.4.3
+      NIST800-53R5:
+      - AU-3
+{{- end }}
+{{- end }}
   {{ end }}
 {{ end }}

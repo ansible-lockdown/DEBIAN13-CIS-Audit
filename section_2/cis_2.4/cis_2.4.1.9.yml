@@ -20,7 +20,10 @@ file:
     path: /etc/cron.allow
     exists: true
     owner: root
-    group: root
+    group:
+      or:
+      - root
+      - crontab
     mode:
       or:
       - "0640"

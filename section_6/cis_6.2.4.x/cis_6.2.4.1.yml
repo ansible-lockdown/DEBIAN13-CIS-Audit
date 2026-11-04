@@ -1,14 +1,18 @@
 ---
 
 {{ if .Vars.deb13cis_level_2 }}
-{{ if .Vars.deb13cis_rule_6_2_4_1 }}
-command:
+  {{ if .Vars.deb13cis_rule_6_2_4_1 }}
+{{- $auditconf := glob "/etc/audit/auditd.conf" }}
+{{- $logfile := "/var/log/audit/audit.log" }}
+{{- if $auditconf }}
+{{- with readFile "/etc/audit/auditd.conf" | findStringSubmatch `(?m)^\s*log_file\s*=\s*(?P<path>\S+)` | get "path" }}{{ $logfile = . }}{{ end }}
+{{- end }}
+file:
+{{- if not $auditconf }}
   audit_logfile_perms:
-    title: 6.2.4.1 | Ensure audit log files mode is configured
-    exec: for file in `grep ^log_file /etc/audit/auditd.conf | awk '{ print $NF }'`; do stat -Lc "%n_%a" $file; done
-    exit-status: 0
-    stdout:
-    - '/.*_6(0|4)0$/'
+    title: 6.2.4.1 | Ensure audit log files mode is configured | auditd.conf
+    path: /etc/audit/auditd.conf
+    exists: true
     meta:
       server: 2
       workstation: 2
@@ -16,5 +20,36 @@ command:
       - 6.2.4.1
       NIST800-53R5:
       - AU-3
+{{- else }}
+{{- range glob (printf "%s*" $logfile) }}
+  audit_logfile_perms_{{ . }}:
+    title: 6.2.4.1 | Ensure audit log files mode is configured
+    path: {{ . }}
+    exists: true
+    mode:
+      match-regexp: '^0[0246][04]0$'
+    meta:
+      server: 2
+      workstation: 2
+      CIS_ID:
+      - 6.2.4.1
+      NIST800-53R5:
+      - AU-3
+{{- else }}
+  audit_logfile_perms:
+    title: 6.2.4.1 | Ensure audit log files mode is configured
+    path: {{ $logfile }}
+    exists: true
+    skip: true
+    skip-reason: no audit log files at {{ $logfile }}
+    meta:
+      server: 2
+      workstation: 2
+      CIS_ID:
+      - 6.2.4.1
+      NIST800-53R5:
+      - AU-3
+{{- end }}
+{{- end }}
   {{ end }}
 {{ end }}

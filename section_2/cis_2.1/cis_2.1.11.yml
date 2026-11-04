@@ -2,11 +2,12 @@
 
 {{ if .Vars.deb13cis_level_1 }}
   {{ if .Vars.deb13cis_rule_2_1_11 }}
-    {{ if not .Vars.deb13cis_print_server }}
-      {{ if not .Vars.deb13cis_print_mask }}
+    {{ if not .Vars.deb13cis_print_mask }}
 package:
   cups_pkg:
     title: 2.1.11 | Ensure print server services are not in use | pkg removed
+    skip: {{ .Vars.deb13cis_print_server }}
+    skip-reason: the print server is required, deb13cis_print_server is true
     name: cups
     installed: false
     meta:
@@ -16,15 +17,15 @@ package:
       - 2.1.11
       NIST800-53R5:
       - CM-7
-      {{ end }}
-      {{ if .Vars.deb13cis_print_mask }}
-file:
+    {{ end }}
+    {{ if .Vars.deb13cis_print_mask }}
+service:
   cups_service_masked:
     title: 2.1.11 | Ensure print server services are not in use | masked
-    path: /etc/systemd/system/cups.service
-    exists: true
-    filetype: symlink
-    linked-to: /dev/null
+    skip: {{ .Vars.deb13cis_print_server }}
+    skip-reason: the print server is required, deb13cis_print_server is true
+    name: cups.service
+    masked: true
     meta:
       server: 1
       workstation: 2
@@ -34,10 +35,10 @@ file:
       - CM-7
   cups_socket_masked:
     title: 2.1.11 | Ensure print server services are not in use | masked
-    path: /etc/systemd/system/cups.socket
-    exists: true
-    filetype: symlink
-    linked-to: /dev/null
+    skip: {{ .Vars.deb13cis_print_server }}
+    skip-reason: the print server is required, deb13cis_print_server is true
+    name: cups.socket
+    masked: true
     meta:
       server: 1
       workstation: 2
@@ -45,7 +46,6 @@ file:
       - 2.1.11
       NIST800-53R5:
       - CM-7
-      {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}

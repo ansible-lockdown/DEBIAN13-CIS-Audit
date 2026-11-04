@@ -2,13 +2,13 @@
 
 {{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_2_4_6 }}
-command:
-  audit_conf_owner:
+file:
+{{- range glob "/etc/audit/*.conf" "/etc/audit/*.rules" "/etc/audit/*/*.conf" "/etc/audit/*/*.rules" }}
+  audit_conf_owner_{{ . }}:
     title: 6.2.4.6 | Ensure audit configuration files owner is configured
-    exec: find /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) ! -user root
-    exit-status: 0
-    stdout:
-    - '!/./'
+    path: {{ . }}
+    exists: true
+    owner: root
     meta:
       server: 2
       workstation: 2
@@ -16,5 +16,18 @@ command:
       - 6.2.4.6
       NIST800-53R5:
       - AU-3
+{{- else }}
+  audit_conf_owner:
+    title: 6.2.4.6 | Ensure audit configuration files owner is configured
+    path: /etc/audit/auditd.conf
+    exists: true
+    meta:
+      server: 2
+      workstation: 2
+      CIS_ID:
+      - 6.2.4.6
+      NIST800-53R5:
+      - AU-3
+{{- end }}
   {{ end }}
 {{ end }}
