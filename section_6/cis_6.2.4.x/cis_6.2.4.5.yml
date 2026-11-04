@@ -2,14 +2,13 @@
 
 {{ if .Vars.deb13cis_level_2 }}
   {{ if .Vars.deb13cis_rule_6_2_4_5 }}
-file:
-{{- range glob "/etc/audit/*.conf" "/etc/audit/*.rules" "/etc/audit/*/*.conf" "/etc/audit/*/*.rules" }}
-  audit_conf_perms_{{ . }}:
+command:
+  audit_conf_perms_all:
     title: 6.2.4.5 | Ensure audit configuration files mode is configured
-    path: {{ . }}
-    exists: true
-    mode:
-      match-regexp: '^0[0246][04]0$'
+    exec: find /etc/audit/ -type f \( -name '*.conf' -o -name '*.rules' \) -perm /0137
+    exit-status: 0
+    stdout:
+    - '!/./'
     meta:
       server: 2
       workstation: 2
@@ -17,11 +16,14 @@ file:
       - 6.2.4.5
       NIST800-53R5:
       - AU-3
-{{- else }}
-  audit_conf_perms:
+file:
+{{- range mkSlice "/etc/audit/auditd.conf" "/etc/audit/audit.rules" "/etc/audit/audit-stop.rules" "/etc/audit/audisp-filter.conf" "/etc/audit/audisp-remote.conf" "/etc/audit/zos-remote.conf" "/etc/audit/rules.d/audit.rules" "/etc/audit/plugins.d/af_unix.conf" "/etc/audit/plugins.d/filter.conf" "/etc/audit/plugins.d/syslog.conf" "/etc/audit/plugins.d/au-remote.conf" "/etc/audit/plugins.d/audispd-zos-remote.conf" }}
+  audit_conf_perms_{{ . }}:
     title: 6.2.4.5 | Ensure audit configuration files mode is configured
-    path: /etc/audit/auditd.conf
+    path: {{ . }}
     exists: true
+    mode:
+      match-regexp: '^0[0246][04]0$'
     meta:
       server: 2
       workstation: 2
