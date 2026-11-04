@@ -13,7 +13,6 @@ command:
     exec: "grep -rs aide /etc/cron.* /etc/crontab /var/spool/cron/*"
     stdout:
     - '!/^#/'
-    {{ end }}
     meta:
       server: 1
       workstation: 1
@@ -21,13 +20,12 @@ command:
       - 6.3.2
       NIST800-53R5:
       - AU-2
-# Can be enabled if using timer and service files
-service:
+    {{ end }}
     {{ if eq .Vars.deb13cis_aide_scan "timer" }}
+service:
   dailyaidecheck:
     title: 6.3.2 | Ensure filesystem integrity is regularly checked
     enabled: true
-    skip: false
     meta:
       server: 1
       workstation: 1
@@ -39,7 +37,6 @@ service:
     title: 6.3.2 | Ensure filesystem integrity is regularly checked
     enabled: true
     running: true
-    skip: false
     meta:
       server: 1
       workstation: 1

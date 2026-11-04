@@ -5,10 +5,11 @@
 command:
   audit_logfile_perms:
     title: 6.2.4.1 | Ensure audit log files mode is configured
-    exec: for file in `grep ^log_file /etc/audit/auditd.conf | awk '{ print $NF }'`; do stat -Lc "%n_%a" $file; done
+    exec: >-
+      c=/etc/audit/auditd.conf; [ -f "$c" ] || { echo "$c is missing"; exit 0; }; l=$(awk -F= '/^[[:space:]]*log_file[[:space:]]*=/ {print $2}' "$c" | xargs); find "$(dirname "$l")" -type f -perm /0137
     exit-status: 0
     stdout:
-    - '/.*_6(0|4)0$/'
+    - '!/./'
     meta:
       server: 2
       workstation: 2

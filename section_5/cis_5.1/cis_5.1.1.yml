@@ -24,7 +24,7 @@ file:
 command:
   ssh_config.d_perms:
     title: 5.1.1 | Ensure access to /etc/ssh/sshd_config is configured | config.d
-    exec: find /etc/ssh/sshd_config.d -perm /137 ! -user root ! -group root
+    exec: find /etc/ssh/sshd_config.d -type f -name '*.conf' \( -perm /0177 -o ! -user root -o ! -group root \)
     exit-status:
       or:
       - 0

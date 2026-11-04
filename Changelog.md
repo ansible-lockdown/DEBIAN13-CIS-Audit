@@ -1,6 +1,16 @@
 # Debian 13 CIS
 
 ## CIS Benchmark v1.0.0
+## November 2026 - fixes
+
+- 2.4.1.9: cron.allow group root or crontab accepted
+- 6.3.2: meta moved inside the cron block, timer variant rendered an orphan meta key
+- 5.1.1: config.d files fail on any of mode wider than 0600, owner or group, check could never fail
+- 5.1.3: public key mode check echoed an unset variable and could never fail
+- 6.2.4.1 - 6.2.4.5, 6.2.4.8 - 6.2.4.10: list the non-compliant files, passed when any one file complied
+- 6.2.4.9: NIST ID UA-3 changed to AU-3
+
+## CIS Benchmark v1.0.0
 ## October 2026 - QA fixes
 
 - 5.4.1.5 root checked only when deb13cis_inactivelock_include_root is true
