@@ -5,10 +5,10 @@
 command:
   auditd_xattr_cnf:
     title: 6.2.3.20 | Ensure discretionary access control permission modification events setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr collected | conf check
-    exec: grep xattr /etc/audit/rules.d/*.rules
+    exec: grep -h xattr /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/[^#]-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -k perm_mod/'
+    - '/^\s*-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=(unset|-1|4294967295) -k perm_mod/'
     meta:
       server: 2
       workstation: 2
@@ -21,7 +21,7 @@ command:
     exec: auditctl -l | grep xattr
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -F key=perm_mod/'
+    - '/-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=(unset|-1|4294967295) -F key=perm_mod/'
     meta:
       server: 2
       workstation: 2

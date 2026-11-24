@@ -5,11 +5,11 @@
 command:
   auditd_logins_cnf:
     title: 6.2.3.23 | Ensure login and logout events are collected | conf check
-    exec: grep logins /etc/audit/rules.d/*.rules
+    exec: grep -h logins /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F path=/var/log/lastlog -F perm=wa -k logins'
-    - '-a always,exit -F arch=b64 -S all -F path=/var/run/faillock -F perm=wa -k logins'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/var/log/lastlog -F perm=wa -k logins/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/var/run/faillock -F perm=wa -k logins/'
     meta:
       server: 2
       workstation: 2

@@ -5,10 +5,10 @@
 command:
   auditd_usermod_cnf:
     title: 6.2.3.30 | Ensure successful and unsuccessful attempts to use the usermod command are collected | config
-    exec: grep usermod /etc/audit/rules.d/*.rules
+    exec: grep -h usermod /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S all -F path=\/usr\/sbin\/usermod -F perm=x -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -k usermod/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=\/usr\/sbin\/usermod -F perm=x -F auid>=1000 -F auid!=(unset|-1|4294967295) -k usermod/'
     meta:
       server: 2
       workstation: 2
@@ -21,7 +21,7 @@ command:
     exec: auditctl -l | grep usermod
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S all -F path=\/usr\/sbin\/usermod -F perm=x -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -F key=usermod/'
+    - '/-a always,exit -F arch=b64 -S all -F path=\/usr\/sbin\/usermod -F perm=x -F auid>=1000 -F auid!=(unset|-1|4294967295) -F key=usermod/'
     meta:
       server: 2
       workstation: 2
