@@ -5,10 +5,10 @@
 command:
   auditd_chacl_cnf:
     title: 6.2.3.29 | Ensure successful and unsuccessful attempts to use the chacl command are collected | config
-    exec: grep chacl /etc/audit/rules.d/*.rules
+    exec: grep -h chacl /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S all -F path=\/usr\/bin\/chacl -F perm=x -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -k perm_chng/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=\/usr\/bin\/chacl -F perm=x -F auid>=1000 -F auid!=(unset|-1|4294967295) -k perm_chng/'
     meta:
       server: 2
       workstation: 2
@@ -23,7 +23,7 @@ command:
     exec: auditctl -l | grep chacl
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S all -F path=\/usr\/bin\/chacl -F perm=x -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -F key=perm_chng/'
+    - '/-a always,exit -F arch=b64 -S all -F path=\/usr\/bin\/chacl -F perm=x -F auid>=1000 -F auid!=(unset|-1|4294967295) -F key=perm_chng/'
     meta:
       server: 2
       workstation: 2

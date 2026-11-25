@@ -5,10 +5,10 @@
 command:
   auditd_rename_cnf:
     title: 6.2.3.25 | Ensure rename file deletion events by users are collected | conf check
-    exec: grep rename /etc/audit/rules.d/*.rules
+    exec: grep -h rename /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/.*:-a always,exit -F arch=b64 -S rename,renameat,renameat2 -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -k delete/'
+    - '/^\s*-a always,exit -F arch=b64 -S rename,renameat,renameat2 -F auid>=1000 -F auid!=(unset|-1|4294967295) -k delete/'
     meta:
       server: 2
       workstation: 2
@@ -21,7 +21,7 @@ command:
     exec: auditctl -l | grep rename
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S rename,renameat,renameat2 -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295)/'
+    - '/-a always,exit -F arch=b64 -S rename,renameat,renameat2 -F auid>=1000 -F auid!=(unset|-1|4294967295)/'
     meta:
       server: 2
       workstation: 2

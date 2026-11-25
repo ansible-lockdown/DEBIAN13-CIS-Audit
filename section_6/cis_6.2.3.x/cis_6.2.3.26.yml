@@ -6,11 +6,11 @@
 command:
   auditd_MAC_cnf:
     title: 6.2.3.26 | Ensure events that modify the system's Mandatory Access Controls are collected | conf
-    exec: grep MAC-policy /etc/audit/rules.d/*.rules
+    exec: grep -h MAC-policy /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/.*.rules\:-a always,exit -F arch=b64 -S all -F path=/etc/apparmor -F perm=wa -k MAC-policy/'
-    - '/.*.rules\:-a always,exit -F arch=b64 -S all -F dir=/etc/apparmor.d -F perm=wa -k MAC-policy/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/etc/apparmor -F perm=wa -k MAC-policy/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F dir=/etc/apparmor.d -F perm=wa -k MAC-policy/'
     meta:
       server: 2
       workstation: 2

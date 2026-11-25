@@ -5,10 +5,10 @@
 command:
   auditd_query_cnf:
     title: 6.2.3.34 | Ensure kernel query_module loading unloading and modification is collected | conf check
-    exec: grep query /etc/audit/rules.d/*.rules
+    exec: grep -h query /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S create_module,query_module -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -k kernel_modules/'
+    - '/^\s*-a always,exit -F arch=b64 -S create_module,query_module -F auid>=1000 -F auid!=(unset|-1|4294967295) -k kernel_modules/'
     meta:
       server: 2
       workstation: 2
@@ -21,7 +21,7 @@ command:
     exec: auditctl -l | grep query
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S create_module,query_module -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295)/'
+    - '/-a always,exit -F arch=b64 -S create_module,query_module -F auid>=1000 -F auid!=(unset|-1|4294967295)/'
     meta:
       server: 2
       workstation: 2

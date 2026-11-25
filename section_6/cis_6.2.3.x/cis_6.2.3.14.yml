@@ -5,11 +5,11 @@
 command:
   auditd_shadow_cnf:
     title: 6.2.3.14 | Ensure events that modify /etc/shadow and /etc/gshadow are collected | conf check
-    exec: grep identity /etc/audit/rules.d/*.rules
+    exec: grep -h identity /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F path=/etc/shadow -F perm=wa -k identity'
-    - '-a always,exit -F arch=b64 -S all -F path=/etc/gshadow -F perm=wa -k identity'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/etc/shadow -F perm=wa -k identity/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/etc/gshadow -F perm=wa -k identity/'
     meta:
       server: 2
       workstation: 2

@@ -9,6 +9,15 @@
 - 5.1.3: public key mode check echoed an unset variable and could never fail
 - 6.2.4.1 - 6.2.4.5, 6.2.4.8 - 6.2.4.10: list the non-compliant files, passed when any one file complied
 - 6.2.4.9: NIST ID UA-3 changed to AU-3
+- run_audit.sh minimum raised to syver 0.16.0
+- 1.1.2.3.x - 1.1.2.7.x: mount option checks skipped with a reason when the partition does not exist (addresses https://github.com/ansible-lockdown/DEBIAN13-CIS-Audit/issues/9) - Thank you @tob123
+- 6.2.3.x: rules file checks anchored to uncommented lines, no longer depend on file count (addresses https://github.com/ansible-lockdown/DEBIAN13-CIS-Audit/issues/21) - Thank you @VATICAN-PSYCHO
+- 6.2.3.x: auid!= alternative typo fixed
+- 5.4.3.1: commented nologin lines in /etc/shells ignored
+- 2.1.19: nginx-plus package checked
+- 5.1.5: grep pattern and path separated
+- 5.1.17: MaxAuthTries values anchored, 10 and 20 no longer pass
+- 1.1.2.5.1: NIST800-53R4 key changed to NIST800-53R5
 
 ## CIS Benchmark v1.0.0
 ## October 2026 - QA fixes

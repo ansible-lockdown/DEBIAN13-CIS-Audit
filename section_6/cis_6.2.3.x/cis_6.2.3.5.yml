@@ -5,10 +5,10 @@
 command:
   auditd_set_cnf:
     title: 6.2.3.5 | Ensure events that modify sethostname and setdomainname are collected | conf check
-    exec: grep system-locale /etc/audit/rules.d/*.rules
+    exec: grep -h system-locale /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S sethostname,setdomainname -k system-locale'
+    - '/^\s*-a always,exit -F arch=b64 -S sethostname,setdomainname -k system-locale/'
     meta:
       server: 2
       workstation: 2
