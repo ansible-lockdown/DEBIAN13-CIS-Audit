@@ -5,10 +5,10 @@
 command:
   auditd_opasswd_cnf:
     title: 6.2.3.15 | Ensure events that modify /etc/security/opasswd are collected | conf check
-    exec: grep identity /etc/audit/rules.d/*.rules
+    exec: grep -h identity /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F path=/etc/security/opasswd -F perm=wa -k identity'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/etc/security/opasswd -F perm=wa -k identity/'
     meta:
       server: 2
       workstation: 2

@@ -5,10 +5,10 @@
 command:
   auditd_sudolog_cnf:
     title: 6.2.3.3 | Ensure events that modify the sudo log file are collected | conf_check
-    exec: grep sudo_log /etc/audit/rules.d/*.rules
+    exec: grep -h sudo_log /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F path=/var/log/sudo.log -F perm=wa -k sudo_log_file'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/var/log/sudo.log -F perm=wa -k sudo_log_file/'
     meta:
       server: 2
       workstation: 2

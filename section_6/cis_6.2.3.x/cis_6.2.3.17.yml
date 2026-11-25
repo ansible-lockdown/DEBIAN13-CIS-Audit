@@ -5,11 +5,11 @@
 command:
   auditd_pam_cnf:
     title: 6.2.3.17 | Ensure events that modify /etc/pam.conf and /etc/pam.d/ information are collected | conf check
-    exec: grep pam /etc/audit/rules.d/*.rules
+    exec: grep -h pam /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F dir=/etc/pam.d -F perm=wa -k identity'
-    - '-a always,exit -F arch=b64 -S all -F path=/etc/pam.conf -F perm=wa -k identity'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F dir=/etc/pam.d -F perm=wa -k identity/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/etc/pam.conf -F perm=wa -k identity/'
     meta:
       server: 2
       workstation: 2
