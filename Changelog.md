@@ -17,6 +17,8 @@
 - 6.2.4.1 - 6.2.4.7: expected audit files plus one find over all files, same test count with or without auditd
 - 6.2.3.x: rules file checks anchored to uncommented lines, no longer depend on file count (addresses https://github.com/ansible-lockdown/DEBIAN13-CIS-Audit/issues/21) - Thank you @VATICAN-PSYCHO
 - 6.2.3.x: auid!= alternative typo fixed in 13 files
+- 5.4.3.1: commented nologin lines in /etc/shells ignored
+- 2.1.19: nginx-plus package checked
 
 ## Based on CIS v1.1.0 - Branch benchmark_1.1.0
 
