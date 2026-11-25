@@ -5,10 +5,10 @@
 command:
   auditd_chmod_cnf:
     title: 6.2.3.18 | Ensure discretionary access control permission modification events chmod,fchmod,fchmodat,fchmodat2 are collected | conf check
-    exec: grep perm_mod /etc/audit/rules.d/*.rules
+    exec: grep -h perm_mod /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/[^#]-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat,fchmodat2 -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -k perm_mod/'
+    - '/^\s*-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat,fchmodat2 -F auid>=1000 -F auid!=(unset|-1|4294967295) -k perm_mod/'
     meta:
       server: 2
       workstation: 2
@@ -21,7 +21,7 @@ command:
     exec: auditctl -l | grep perm_mod
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat,fchmodat2 -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295)/'
+    - '/-a always,exit -F arch=b64 -S chmod,fchmod,fchmodat,fchmodat2 -F auid>=1000 -F auid!=(unset|-1|4294967295)/'
     meta:
       server: 2
       workstation: 2

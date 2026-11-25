@@ -5,10 +5,10 @@
 command:
   auditd_other_user_cnf:
     title: 6.2.3.2 | Ensure actions as another user are always logged | conf_check
-    exec: grep user_emu /etc/audit/rules.d/*.rules
+    exec: grep -h user_emu /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -C euid!=uid -F auid!=(unset|-1|auid!=4294967295) -S execve -k user_emulation/'
+    - '/^\s*-a always,exit -F arch=b64 -C euid!=uid -F auid!=(unset|-1|4294967295) -S execve -k user_emulation/'
     meta:
       server: 2
       workstation: 2
@@ -21,7 +21,7 @@ command:
     exec: auditctl -l | grep user_emu
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S execve -C uid!=euid -F auid!=(unset|-1|auid!=4294967295) -F key=user_emulation/'
+    - '/-a always,exit -F arch=b64 -S execve -C uid!=euid -F auid!=(unset|-1|4294967295) -F key=user_emulation/'
     meta:
       server: 2
       workstation: 2

@@ -5,12 +5,12 @@
 command:
   auditd_sessions_cnf:
     title: 6.2.3.22 | Ensure session initiation information is collected | conf check
-    exec: grep session /etc/audit/rules.d/*.rules
+    exec: grep -h session /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F path=/var/run/utmp -F perm=wa -k session'
-    - '-a always,exit -F arch=b64 -S all -F path=/var/log/wtmp -F perm=wa -k session'
-    - '-a always,exit -F arch=b64 -S all -F path=/var/log/btmp -F perm=wa -k session'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/var/run/utmp -F perm=wa -k session/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/var/log/wtmp -F perm=wa -k session/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/var/log/btmp -F perm=wa -k session/'
     meta:
       server: 2
       workstation: 2

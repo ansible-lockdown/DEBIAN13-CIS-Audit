@@ -5,11 +5,11 @@
 command:
   auditd_hosts_cnf:
     title: 6.2.3.7 | Ensure events that modify /etc/hosts and /etc/hostname are collected | conf check
-    exec: grep system-locale /etc/audit/rules.d/*.rules
+    exec: grep -h system-locale /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S all -F path=/etc/hosts -F perm=wa -k system-locale'
-    - '-a always,exit -F arch=b64 -S all -F path=/etc/hostname -F perm=wa -k system-locale'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/etc/hosts -F perm=wa -k system-locale/'
+    - '/^\s*-a always,exit -F arch=b64 -S all -F path=/etc/hostname -F perm=wa -k system-locale/'
     meta:
       server: 2
       workstation: 2

@@ -5,11 +5,11 @@
 command:
   auditd_time_cnf:
     title: 6.2.3.4 | Ensure events that modify date and time information are collected | conf check
-    exec: grep time-change /etc/audit/rules.d/*.rules
+    exec: grep -h time-change /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '-a always,exit -F arch=b64 -S clock_settime -F a0=0x0 -k time-change'
-    - '-a always,exit -F arch=b64 -S adjtimex,settimeofday -k time-change'
+    - '/^\s*-a always,exit -F arch=b64 -S clock_settime -F a0=0x0 -k time-change/'
+    - '/^\s*-a always,exit -F arch=b64 -S adjtimex,settimeofday -k time-change/'
     meta:
       server: 2
       workstation: 2

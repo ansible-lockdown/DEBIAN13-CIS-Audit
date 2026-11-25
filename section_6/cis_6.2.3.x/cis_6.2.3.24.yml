@@ -5,10 +5,10 @@
 command:
   auditd_unlink_cnf:
     title: 6.2.3.24 | Ensure unlink file deletion events by users are collected | conf check
-    exec: grep unlink /etc/audit/rules.d/*.rules
+    exec: grep -h unlink /etc/audit/rules.d/*.rules
     exit-status: 0
     stdout:
-    - '/.*:-a always,exit -F arch=b64 -S unlink,unlinkat -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295) -k delete/'
+    - '/^\s*-a always,exit -F arch=b64 -S unlink,unlinkat -F auid>=1000 -F auid!=(unset|-1|4294967295) -k delete/'
     meta:
       server: 2
       workstation: 2
@@ -21,7 +21,7 @@ command:
     exec: auditctl -l | grep unlink
     exit-status: 0
     stdout:
-    - '/-a always,exit -F arch=b64 -S unlink,unlinkat -F auid>=1000 -F auid!=(unset|-1|auid!=4294967295)/'
+    - '/-a always,exit -F arch=b64 -S unlink,unlinkat -F auid>=1000 -F auid!=(unset|-1|4294967295)/'
     meta:
       server: 2
       workstation: 2
